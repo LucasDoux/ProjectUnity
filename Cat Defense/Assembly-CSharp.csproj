@@ -60,8 +60,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\OrangeFood.cs" />
-    <Compile Include="Assets\Script\Player.cs" />
+    <Compile Include="Assets\Script\Enemy_Scripts\EnemyFollow.cs" />
+    <Compile Include="Assets\Script\Player_Scripts\OrangeFood.cs" />
+    <Compile Include="Assets\Script\Player_Scripts\Player.cs" />
     <None Include="Assets\Sprites\FX\fout.shader" />
     <None Include="Assets\Sprites\FX\vout.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">
