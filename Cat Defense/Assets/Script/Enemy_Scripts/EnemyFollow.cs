@@ -11,7 +11,7 @@ public class EnemyFollow : MonoBehaviour
     
     void Awake()
     {
-        playerPos = GameObject.FindGameObjectWithTag("Finish").transform; // assim que começar ele ira logo atras da tag "Player"(Object)
+        playerPos = GameObject.FindGameObjectWithTag("Player").transform; // assim que começar ele ira logo atras da tag "Player"(Object)
     }
 
     
