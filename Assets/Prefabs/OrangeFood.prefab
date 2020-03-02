@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 496718590859652708}
   m_Layer: 0
   m_Name: OrangeFood
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,3 +111,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   radius: {fileID: 393733586350305863, guid: fdd22a42b9475ec4aad81522a6641fa9, type: 3}
+  OnDespawn:
+    m_PersistentCalls:
+      m_Calls: []

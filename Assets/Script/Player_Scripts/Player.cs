@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -23,8 +24,10 @@ public class Player : MonoBehaviour
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
 
         //Shoot Function
-        if (Input.GetMouseButtonDown(0))
-            Instantiate(bullet, transform.position, Quaternion.identity); // o que é isso Quaternion.identity
+        if (Input.GetMouseButtonDown(0)) {
+            var bulletObject = Instantiate(bullet, transform.position, Quaternion.identity); // o que é isso Quaternion.identity
+            //transform.rotation *= Quaternion.Euler(90, 0, 0); Rotate 90deg
+        }  
     }
 
     private void FixedUpdate()
