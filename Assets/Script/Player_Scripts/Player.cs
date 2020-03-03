@@ -12,11 +12,18 @@ public class Player : MonoBehaviour
 
     public Rigidbody2D rb;
     public Camera cam;
+    private Animator legAnim;
 
     Vector2 movement;
     Vector2 mousePos;
 
-     void Update()
+     void Awake()
+    {
+        legAnim = transform.GetChild(2).GetComponent<Animator>();
+        
+    }
+
+    void Update()
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
@@ -27,7 +34,11 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) {
             var bulletObject = Instantiate(bullet, transform.position, Quaternion.identity); // o que é isso Quaternion.identity
             //transform.rotation *= Quaternion.Euler(90, 0, 0); Rotate 90deg
-        }  
+        }
+
+        //Bounds = limitação da tela no personagem(paredes invisiveis)
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -3.3f, 3.3f), Mathf.Clamp(transform.position.y, -2.4f, 2.4f));
+                                                     //POSIÇÃO LIMITE CAMERA EM X                    POSIÇÃO LIMITE CAMERA EM Y
     }
 
     private void FixedUpdate()
@@ -44,6 +55,11 @@ public class Player : MonoBehaviour
 
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
         rb.rotation = angle;
+
+        if (movement == Vector2.zero)
+            legAnim.SetBool("Moving", false);
+        else
+            legAnim.SetBool("Moving", true);
     }
 
 
