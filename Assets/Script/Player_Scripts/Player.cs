@@ -12,14 +12,16 @@ public class Player : MonoBehaviour
 
     public Rigidbody2D rb;
     public Camera cam;
-    private Animator legAnim;
+    public Animator legAnim;
+
+    private int currentKey = 1;
 
     Vector2 movement;
     Vector2 mousePos;
 
      void Awake()
     {
-        legAnim = transform.GetChild(2).GetComponent<Animator>();
+        //legAnim = transform.GetChild(2).GetComponent<Animator>();
         
     }
 
@@ -32,18 +34,59 @@ public class Player : MonoBehaviour
 
         //Shoot Function
         if (Input.GetMouseButtonDown(0)) {
-            var bulletObject = Instantiate(bullet, transform.position, Quaternion.identity); // o que é isso Quaternion.identity
-            //transform.rotation *= Quaternion.Euler(90, 0, 0); Rotate 90deg
+            switch (currentKey)
+            {
+                case 1:
+                    Shoot1();
+                    break;
+                case 2:
+                    Shoot2();
+                    break;
+                case 3:
+                    Shoot3();
+                    break;
+            }
+        }
+        
+        //Change weapon
+        if (Input.GetButtonDown("Act1"))
+        {
+            currentKey = 1;
+        }
+        else if (Input.GetButtonDown("Act2"))
+        {
+            currentKey = 2;
+        }
+        else if (Input.GetButtonDown("Act3"))
+        {
+            currentKey = 3;
         }
 
+        //NOT NOT NOT DO NOT
         //Bounds = limitação da tela no personagem(paredes invisiveis)
-        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -3.3f, 3.3f), Mathf.Clamp(transform.position.y, -2.4f, 2.4f));
+        //transform.position = new Vector2(Mathf.Clamp(transform.position.x, -3.3f, 3.3f), Mathf.Clamp(transform.position.y, -2.4f, 2.4f));
                                                      //POSIÇÃO LIMITE CAMERA EM X                    POSIÇÃO LIMITE CAMERA EM Y
     }
 
+    private void Shoot1()
+    {
+        var bulletObject = Instantiate(bullet, transform.position, Quaternion.identity); // o que é isso Quaternion.identity
+        //transform.rotation *= Quaternion.Euler(90, 0, 0); Rotate 90deg
+    }
+
+    private void Shoot2()
+    {
+        
+    }
+
+    private void Shoot3()
+    {
+        
+    }
+    
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position +  moveSpeed * Time.fixedDeltaTime * movement);
         Vector2 lookDir = mousePos - rb.position;
 
         //Atan2 = Retorna o ângulo em radianos cujo Tan é y/x.

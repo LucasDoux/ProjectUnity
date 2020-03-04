@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Rubens Diniz\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Rubens Diniz\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_ProjectUnity.1343140723.00" t="ExcludeRecursive" />
+    <e p="D:\Program Files (HD)\Unity\MyProjects\ProjectUnity" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Script" t="Include">
+          <e p="Enemy_Scripts" t="Include">
+            <e p="EnemyFollow.cs" t="Include" />
+          </e>
+          <e p="GameController.cs" t="Include" />
+          <e p="Player_Scripts" t="Include">
+            <e p="Lifebar.cs" t="Include" />
+            <e p="OrangeFood.cs" t="Include" />
+            <e p="Player.cs" t="Include" />
+            <e p="Radius.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Sprites" t="Include">
+          <e p="FX" t="Include">
+            <e p="fout.shader" t="Include" />
+            <e p="vout.shader" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="ProjectUnity.sln" t="IncludeFlat" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
