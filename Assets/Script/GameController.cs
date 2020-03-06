@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
     public BoxCollider2D FoodSpawn;
     public float minDistance;
 
-    public void Start()
+    public void Awake()
     {
         var bounds = FoodSpawn.bounds;
         var min = bounds.min;
