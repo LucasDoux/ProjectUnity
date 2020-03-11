@@ -24,12 +24,26 @@ public class EnemyFollow : MonoBehaviour
     
     void Update()
     {
-        if(Vector2.Distance(transform.position, targetFollow.position)> 0.3f) //caso ele encontre o player ele fica a 0.3f de distancia do player
+        if (targetFollow == null)
+            targetFollow = originalTarget;
+        
+        if(Vector2.Distance(transform.position, targetFollow.position)> 0.1f) //caso ele encontre o player ele fica a 0.3f de distancia do player
         transform.position = Vector2.MoveTowards(transform.position, targetFollow.position, speed * Time.deltaTime);//calculando a posição em que o player se move para segui-lo
+
+        //var deltaVector = targetFollow.position - transform.position;
+        //var directionDelta = deltaVector.normalized;
+
+        //var newPosition = transform.position + (directionDelta * speed/100);
+        //transform.position = newPosition;
+
     }
 
+    //private void OnCollisionStay2D(Collision2D collision) {
+    //    Debug.Log(collision.gameObject.tag);
+    //}
+
     private void OnTriggerStay2D(Collider2D collision) {
-        Debug.Log("Indo");
+        //Debug.Log("Indo");
 
         if (targetFollow != collision.transform && collision.CompareTag("Food")) {
             targetFollow = collision.transform;
