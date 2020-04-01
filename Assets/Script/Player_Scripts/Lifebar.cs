@@ -22,9 +22,17 @@ public class Lifebar : MonoBehaviour
 
         while (Lifebars.Count > life)
         {
-            var lifebar = Lifebars.Last();
+            var lifebar = Lifebars.First();
             Lifebars.Remove(lifebar);
             Destroy(lifebar);
         }
+    }
+
+    public void DecreaseLife() {
+        UpdateLife(GetLife() - 1);
+    }
+
+    public int GetLife() {
+        return Lifebars.Count;
     }
 }

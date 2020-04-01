@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public Camera cam;
     public Animator legAnim;
 
-    private int currentKey = 1;
+    private int currentWeapon = 1;
 
     Vector2 movement;
     Vector2 mousePos;
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
 
         //Shoot Function
         if (Input.GetMouseButtonDown(0)) {
-            switch (currentKey)
+            switch (currentWeapon)
             {
                 case 1:
                     Shoot1();
@@ -49,17 +49,14 @@ public class Player : MonoBehaviour
         }
         
         //Change weapon
-        if (Input.GetButtonDown("Act1"))
-        {
-            currentKey = 1;
+        if (Input.GetButtonDown("Act1")) {
+            currentWeapon = 1;
         }
-        else if (Input.GetButtonDown("Act2"))
-        {
-            currentKey = 2;
+        else if (Input.GetButtonDown("Act2")) {
+            currentWeapon = 2;
         }
-        else if (Input.GetButtonDown("Act3"))
-        {
-            currentKey = 3;
+        else if (Input.GetButtonDown("Act3")) {
+            currentWeapon = 3;
         }
 
         //NOT NOT NOT DO NOT

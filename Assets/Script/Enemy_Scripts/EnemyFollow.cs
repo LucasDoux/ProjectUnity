@@ -30,8 +30,14 @@ public class EnemyFollow : MonoBehaviour
     
     void Update()
     {
-        if (targetFollow == null)
+        if (targetFollow == null) {
+            if (originalTarget == null) {
+                originalTarget = GameObject.FindGameObjectWithTag("Finish").transform;
+            }
+
             targetFollow = originalTarget;
+        }
+            
 
         if (!canWalk)
             return;

@@ -13,7 +13,7 @@ public class Arma : MonoBehaviour
         if (counter >= 10) {
             counter = 0;
 
-            ArmaAreaCollider.cont
+            //ArmaAreaCollider.cont
         }
     }
 }

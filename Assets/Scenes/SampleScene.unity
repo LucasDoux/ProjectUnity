@@ -36198,6 +36198,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114396857271330920, guid: ff9428dfcdefe6840a4d1e31709f3467,
+        type: 3}
+      propertyPath: barTransform
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114396857271330920, guid: ff9428dfcdefe6840a4d1e31709f3467,
+        type: 3}
+      propertyPath: Depletion
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4608393018201846477, guid: ff9428dfcdefe6840a4d1e31709f3467,
         type: 3}
       propertyPath: m_Name
@@ -36207,6 +36217,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4608393018201846477, guid: ff9428dfcdefe6840a4d1e31709f3467,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4608393018201846515, guid: ff9428dfcdefe6840a4d1e31709f3467,
         type: 3}
@@ -49247,7 +49262,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.14441442, y: -0.87412786}
+  m_Offset: {x: -0.069282055, y: -1.2684014}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -49258,7 +49273,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 7.803524, y: 2.6840973}
+  m_Size: {x: 5.8500767, y: 1.8955503}
   m_EdgeRadius: 0
 --- !u!114 &1734526798
 MonoBehaviour:
@@ -49275,7 +49290,7 @@ MonoBehaviour:
   FoodPrefab: {fileID: 4608393018201846477, guid: ff9428dfcdefe6840a4d1e31709f3467,
     type: 3}
   FoodSpawn: {fileID: 1734526797}
-  minDistance: 1
+  minDistance: 0.9
 --- !u!4 &1734526799
 Transform:
   m_ObjectHideFlags: 0
@@ -53745,6 +53760,7 @@ GameObject:
   - component: {fileID: 1921835037}
   - component: {fileID: 1921835036}
   - component: {fileID: 1921835038}
+  - component: {fileID: 1921835039}
   m_Layer: 5
   m_Name: Life-Box
   m_TagString: Untagged
@@ -53837,6 +53853,29 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
+--- !u!114 &1921835039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921835034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86fe23ab950cc24489b3ddd3273cd038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LayoutContent: {fileID: 0}
+  LifeBarPrefab: {fileID: 1921835034}
+  Lifebars:
+  - {fileID: 222004906}
+  - {fileID: 326332562}
+  - {fileID: 868326612}
+  - {fileID: 338984503}
+  - {fileID: 1563389895}
+  - {fileID: 2138768791}
+  - {fileID: 833872269}
+  - {fileID: 895377159}
 --- !u!1 &1924787884
 GameObject:
   m_ObjectHideFlags: 0
@@ -57961,6 +58000,49 @@ Transform:
   m_Father: {fileID: 1974182003}
   m_RootOrder: 524
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2058041222 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4608393018201846477, guid: ff9428dfcdefe6840a4d1e31709f3467,
+    type: 3}
+  m_PrefabInstance: {fileID: 1189287982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &2058041223
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058041222}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!70 &2058041227
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058041222}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.22, y: 0.089999996}
+  m_Direction: 0
 --- !u!1 &2058363779
 GameObject:
   m_ObjectHideFlags: 0
