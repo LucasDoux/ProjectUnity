@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class FoodHumans : MonoBehaviour {
 
-    public float Depletion = 200;
+    public float Depletion = 300;
+    private float OriginalDepletion;
     public Transform barTransform;
 
     // Start is called before the first frame update
     void Start() {
-        
+        OriginalDepletion = Depletion;
     }
 
     // Update is called once per frame
@@ -19,9 +20,13 @@ public class FoodHumans : MonoBehaviour {
 
     private void OnCollisionStay2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Cat")) {
-            Debug.Log($"Depletion = {Depletion}");
+            if (barTransform.gameObject.GetComponent<SpriteRenderer>().enabled == false) {
+                barTransform.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            }
+
+            //Debug.Log($"Depletion = {Depletion}");
             Depletion--;
-            barTransform.localScale = new Vector3(0.5f * (Depletion / 200), 0.04f, 1);
+            barTransform.localScale = new Vector3(0.5f * (Depletion / OriginalDepletion), 0.04f, 1);
             if (Depletion == 0) {
                 Destroy(gameObject);
                 GameObject.FindObjectOfType<Lifebar>().DecreaseLife();

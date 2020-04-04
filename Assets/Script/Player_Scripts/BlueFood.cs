@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class OrangeFood : MonoBehaviour {
+public class BlueFood : MonoBehaviour {
 
-    public float Depletion = 150;
+    public float Depletion = 100;
     private float OriginalDepletion;
     public Transform barTransform;
 
@@ -15,7 +14,7 @@ public class OrangeFood : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update(){
+    void Update() {
 
     }
 
@@ -25,11 +24,12 @@ public class OrangeFood : MonoBehaviour {
                 barTransform.gameObject.GetComponent<SpriteRenderer>().enabled = true;
             }
 
-            //Debug.Log($"Depletion = {Depletion}");
             Depletion--;
             barTransform.localScale = new Vector3(0.5f * (Depletion / OriginalDepletion), 0.04f, 1);
             if (Depletion == 0) {
+                var cat = collision.gameObject.GetComponent<EnemyFollow>();
                 Destroy(gameObject);
+                cat.setSatisfied(true);
             }
         } else {
             Debug.Log(collision.gameObject.tag);

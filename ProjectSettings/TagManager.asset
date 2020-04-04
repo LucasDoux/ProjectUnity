@@ -7,6 +7,8 @@ TagManager:
   - Food
   - Cat
   - Arma
+  - Trigger
+  - Exit
   layers:
   - Default
   - TransparentFX

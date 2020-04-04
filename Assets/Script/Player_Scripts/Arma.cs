@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arma : MonoBehaviour
-{
+public class Arma : MonoBehaviour {
     public LayerMask EnemyLayer;
     public Collider2D ArmaAreaCollider;
     private int counter;

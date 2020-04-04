@@ -5,14 +5,12 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class GameController : MonoBehaviour
-{
+public class GameController : MonoBehaviour {
     public GameObject FoodPrefab;
     public BoxCollider2D FoodSpawn;
     public float minDistance;
 
-    public void Awake()
-    {
+    public void Awake() {
         var bounds = FoodSpawn.bounds;
         var min = bounds.min;
         var max = bounds.max;
@@ -24,8 +22,7 @@ public class GameController : MonoBehaviour
         int maxAttempts = 30;
         int attemps = 0;
         
-        while (!valid && attemps <= maxAttempts)
-        {
+        while (!valid && attemps <= maxAttempts) {
             attemps++;
             pos1 = new Vector3(Random.Range(min.x,max.x), Random.Range(min.y,max.y));
             pos2 = new Vector3(Random.Range(min.x,max.x), Random.Range(min.y,max.y));
