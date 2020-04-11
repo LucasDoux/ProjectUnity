@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
@@ -6,95 +7,216 @@ using System.Linq;
 
 public class EnemyFollow : MonoBehaviour
 {
+    #region Parameters
     public float knockbackForce;
     private bool canWalk;
     private bool canLeave;
-    private bool isSatisfied;
     public float speed;
 
     public Player player;
 
     private Rigidbody2D rb;
-    private Transform originalTarget;
-    public Transform targetFollow;
+    #endregion
+
+    #region Control Variables
+
+    #region Eating
+
+    [SerializeField] private Transform closestFood;
+
+    #endregion
+
+    #region Distracted
     
-    void Start()
+
+    #endregion
+    
+    #region Leaving
+
+    [SerializeField] private Transform closestLeavingPoint;
+
+    #endregion
+    
+    #endregion
+
+    #region State
+
+    //State machine do Gato
+    [Serializable]
+    public enum CatState
     {
-        player = FindObjectOfType<Player>().GetComponent<Player>();
-        //originalTarget = GameObject.FindGameObjectWithTag("Finish").transform; // assim que começar ele ira logo atras da tag "Player"(Object)
-        originalTarget = FindNearestWithTag("Finish").transform;
-        targetFollow = originalTarget;
-        speed = 3;
-        canWalk = true;
-        canLeave = false;
-        isSatisfied = false;
+        Eating,
+        Knockback,
+        Distracted,
+        Leaving
+    }
+
+    //Estado atual
+    [SerializeField] private CatState _state;
+
+    public CatState State
+    {
+        get => _state;
+        //State initialization
+        set
+        {
+            //Não pode sair do Leaving
+            if (_state == CatState.Leaving)
+                return;
+            switch (value)
+            {
+                case CatState.Eating:
+                    //Get closest food
+                    closestFood = FindNearestWithTag("Finish").transform;
+                    break;
+                case CatState.Distracted:
+                    break;
+                case CatState.Knockback:
+                    break;
+                case CatState.Leaving:
+                    //Get closest leaving point
+                    closestLeavingPoint = FindNearestWithTag("Exit").transform;
+                    //Disable collision
+                    rb.isKinematic = true;
+                    var direction = (closestLeavingPoint.position - transform.position).normalized;
+                    rb.velocity = direction * speed;
+                    //Max time
+                    StartCoroutine(DestroyAfter(5f));
+                    break;
+            }
+            _state = value;
+        }
+    }
+
+    #endregion
+
+    #region Unity Events
+
+    private void Awake()
+    {
+        player = FindObjectOfType<Player>();
         rb = GetComponent<Rigidbody2D>();
     }
-    
-    void Update()
+
+    void Start()
     {
-        if (targetFollow == null && !isSatisfied) {
-            if (originalTarget == null) {
-                originalTarget = FindNearestWithTag("Finish").transform;
+        State = CatState.Eating;
+    }
 
-                if (FindNearestWithTag("Finish").transform != null) {
-                    originalTarget = FindNearestWithTag("Finish").transform;
-                } else {
-                    setSatisfied(true);
-                }
+    private void FixedUpdate()
+    {
+        switch (State)
+        {
+            case CatState.Eating: 
+                EatingLogic();
+                break;
+            case CatState.Distracted:
+                DistractedLogic();
+                break;
+            case CatState.Knockback:
+                KnockbackLogic();
+                break;
+            case CatState.Leaving:
+                LeavingLogic();
+                break;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Arma") && State != CatState.Knockback)
+        {
+            ReceiveKnockback(other.transform);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        GameController.Instance.Cats.Remove(this);
+    }
+
+    #endregion
+
+    #region State Logic
+    
+    private void EatingLogic()
+    {
+        if (!GameController.Instance.Food.Any())
+        {
+            State = CatState.Leaving;
+            return;
+        }
+
+        if (closestFood == null)
+        {
+            closestFood = FindNearestWithTag("Finish")?.transform;
+            if (closestFood == null)
+            {
+                State = CatState.Leaving;
+                return;
             }
-
-            targetFollow = originalTarget;
         }
-
-        if (isSatisfied) {
-            targetFollow = FindNearestWithTag("Exit").transform;
-        }
-
-        //if (!canWalk)
-        //    return;
-
-        if (canWalk && Vector2.Distance(transform.position, targetFollow.position) > 0.1f) {
-            transform.position = Vector2.MoveTowards(transform.position, targetFollow.position, speed * Time.deltaTime);//calculando a posição em que o player se move para segui-lo
-        }
-
-        //var deltaVector = targetFollow.position - transform.position;
-        //var directionDelta = deltaVector.normalized;
-        //var newPosition = transform.position + (directionDelta * speed/100);
-        //transform.position = newPosition;
-
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("Arma") && !isSatisfied) {
-            var playerPosition = player.transform.position;
-            var deltaPosition = transform.position - playerPosition;
-
-            var absDelta = deltaPosition.normalized;
-
-            rb.AddForce(absDelta * knockbackForce);
-
-            StartCoroutine(LockWalk(1.5f));
-            //StartCoroutine(KnockbackCoroutine());
-        }
-
-        if (!canLeave && collision.CompareTag("Trigger")) {
-            canLeave = true;
+        
+        //Get direction
+        var direction = (closestFood.position - transform.position).normalized;
+        //Set movement
+        rb.velocity = direction*speed;
+        
+        //Should be distracted?
+        if (OrangeFood.Food.Count > 0)
+        {
+            if (ClosestDistraction() != null)
+                _state = CatState.Distracted;
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision) {    
-        if (!isSatisfied && targetFollow != collision.transform && collision.CompareTag("Food")) {
-            targetFollow = collision.transform;
+    private void DistractedLogic()
+    {
+        if (!OrangeFood.Food.Any())
+        {
+            _state = CatState.Eating;
+            return;
         }
+        var dist = ClosestDistraction();
+        if (dist == null)
+        {
+            _state = CatState.Eating;
+            return;
+        }
+        
+        var direction = (dist.transform.position - transform.position).normalized;
+        rb.velocity = direction * speed;
     }
 
-    private void OnBecameInvisible() {
-        if (canLeave) {
-            setSatisfied(true);
-            targetFollow = FindNearestWithTag("Exit").transform;
-            //TODO
-        }
+    private void KnockbackLogic()
+    {
+        
+    }
+    
+    private void LeavingLogic()
+    {
+        var distance = Vector3.Distance(closestLeavingPoint.position, transform.position);
+        if (distance <= 0.5f)
+            Destroy(gameObject);
+    }
+
+    #endregion
+
+    #region Functions
+
+    private Transform ClosestDistraction()
+    {
+        if (!OrangeFood.Food.Any())
+            return null;
+        
+        var closestDistraction = OrangeFood.Food
+            .Aggregate((f1,f2) => 
+                Vector3.Distance(f1.transform.position,transform.position) < Vector3.Distance(f2.transform.position,transform.position) ?
+                    f1 : f2);
+
+        if (closestDistraction.Radius >= Vector3.Distance(closestDistraction.transform.position, transform.position))
+            return closestDistraction.transform;
+        return null;
     }
 
     private GameObject FindNearestWithTag(string tag) {
@@ -116,19 +238,33 @@ public class EnemyFollow : MonoBehaviour
         return closest;
     }
 
-    private void OnTriggerExit2D(Collider2D collision) {
-        if (collision.CompareTag("Food")) {
-            targetFollow = originalTarget;
+    public void ReceiveKnockback(Transform source)
+    {
+        if (State == CatState.Knockback)
+            return;
+
+        State = CatState.Knockback;
+        var direction = (transform.position - player.transform.position).normalized;
+        rb.velocity = direction*knockbackForce;
+        StartCoroutine(EndKnockback(0.35f));
+    }
+
+    private IEnumerator EndKnockback(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        //Ignore if state has been overriden
+        if (State == CatState.Knockback)
+        {
+            State = CatState.Eating;
         }
     }
 
-    private IEnumerator LockWalk(float time) {
-        canWalk = false;
-        yield return new WaitForSeconds(time);
-        canWalk = true;
+    private IEnumerator DestroyAfter(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Destroy(gameObject);
     }
 
-    public void setSatisfied(bool b) {
-        isSatisfied = b;
-    }
+    #endregion
+    
 }

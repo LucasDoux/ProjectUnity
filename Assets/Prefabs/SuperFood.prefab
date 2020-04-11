@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Depletion: 150
+  areaTransform: {fileID: 353042040012234297}
   barTransform: {fileID: 3693537688082452754}
 --- !u!58 &1916663419766389209
 CircleCollider2D:

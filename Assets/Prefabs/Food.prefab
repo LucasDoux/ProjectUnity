@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Depletion: 150
+  areaTransform: {fileID: 4315946434335216757}
   barTransform: {fileID: 7744140122203848198}
 --- !u!50 &6826368723506248360
 Rigidbody2D:
@@ -174,7 +175,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5358541154053242074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1

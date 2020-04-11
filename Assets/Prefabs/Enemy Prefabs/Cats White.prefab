@@ -140,9 +140,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4a2fef577246841bad709cdfa1b89f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  knockbackForce: 2
+  speed: 1.5
   player: {fileID: 0}
-  targetFollow: {fileID: 0}
+  closestFood: {fileID: 0}
+  closestLeavingPoint: {fileID: 0}
+  _state: 0
 --- !u!50 &2141728268
 Rigidbody2D:
   serializedVersion: 4

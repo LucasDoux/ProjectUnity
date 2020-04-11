@@ -6,20 +6,25 @@ using UnityEngine.Events;
 public class OrangeFood : MonoBehaviour {
 
     public float Depletion = 150;
-    private float OriginalDepletion;
+    public Transform areaTransform;
+    protected float OriginalDepletion;
     public Transform barTransform;
+    public static List<OrangeFood> Food = new List<OrangeFood>();
+
+    public float Radius => areaTransform.localScale.x/2;
 
     // Start is called before the first frame update
     void Start() {
         OriginalDepletion = Depletion;
+        Food.Add(this);
     }
 
-    // Update is called once per frame
-    void Update(){
-
+    private void OnDestroy()
+    {
+        Food.Remove(this);
     }
 
-    private void OnCollisionStay2D(Collision2D collision) {
+    protected virtual void OnCollisionStay2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Cat")) {
             if (barTransform.gameObject.GetComponent<SpriteRenderer>().enabled == false) {
                 barTransform.gameObject.GetComponent<SpriteRenderer>().enabled = true;
@@ -34,10 +39,5 @@ public class OrangeFood : MonoBehaviour {
         } else {
             Debug.Log(collision.gameObject.tag);
         }
-    }
-
-    IEnumerator Despawn(int seconds) {
-        yield return new WaitForSeconds(seconds);
-        Destroy(gameObject);
     }
 }

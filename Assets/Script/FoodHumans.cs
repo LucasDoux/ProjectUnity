@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,10 +13,15 @@ public class FoodHumans : MonoBehaviour {
     void Start() {
         OriginalDepletion = Depletion;
     }
-
+    
     // Update is called once per frame
     void Update() {
         
+    }
+
+    private void OnDestroy()
+    {
+        GameController.Instance.Food.Remove(gameObject);
     }
 
     private void OnCollisionStay2D(Collision2D collision) {

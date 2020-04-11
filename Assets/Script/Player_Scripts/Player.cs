@@ -17,9 +17,24 @@ public class Player : MonoBehaviour {
     public Animator legAnim;
 
     public float moveSpeed = 5f;
+    public float distractionCooldown = 0.5f;
     Vector2 movement;
     Vector2 mousePos;
 
+    private SpriteRenderer weaponRenderer;
+    private PolygonCollider2D weaponCollider;
+    private bool canDistract = true;
+    [SerializeField] private int _blueFoodCount;
+    public int BlueFoodCount
+    {
+        get => _blueFoodCount;
+        set
+        {
+            _blueFoodCount = value;
+            MainUI.Instance.SetBlueCount(value);
+        }
+    }
+    
     void Awake() {
         //legAnim = transform.GetChild(2).GetComponent<Animator>();
         foreach (Transform child in this.gameObject.transform) {
@@ -28,8 +43,11 @@ public class Player : MonoBehaviour {
                 break;
             }
         }
-
-        weaponColor = weapon.GetComponent<SpriteRenderer>().color;
+        
+        weaponRenderer = weapon.GetComponent<SpriteRenderer>();
+        weaponColor = weaponRenderer.color;
+        weaponCollider = weapon.GetComponent<PolygonCollider2D>();
+        MainUI.Instance.SetSelectedWeapon(1);
     }
 
     void Update() {
@@ -42,13 +60,13 @@ public class Player : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && !isShooting) {
             isShooting = true;
             weaponColor.a = 0.75f;
-            weapon.GetComponent<SpriteRenderer>().color = weaponColor;
-            weapon.GetComponent<PolygonCollider2D>().enabled = true;
+            weaponRenderer.color = weaponColor;
+            weaponCollider.enabled = true;
         } else if (Input.GetMouseButtonUp(0) && isShooting) {
             isShooting = false;
             weaponColor.a = 0.2f;
-            weapon.GetComponent<SpriteRenderer>().color = weaponColor;
-            weapon.GetComponent<PolygonCollider2D>().enabled = false;
+            weaponRenderer.color = weaponColor;
+            weaponCollider.enabled = false;
         }
         
 
@@ -67,20 +85,30 @@ public class Player : MonoBehaviour {
         //Change weapon
         if (Input.GetButtonDown("Act1")) {
             currentWeapon = 1;
+            MainUI.Instance.SetSelectedWeapon(1);
         }
         else if (Input.GetButtonDown("Act2")) {
             currentWeapon = 2;
+            MainUI.Instance.SetSelectedWeapon(2);
         }
     }
 
     private void Shoot1(){
-        var bulletObject = Instantiate(orangeFood, transform.position, Quaternion.identity); // o que é isso Quaternion.identity
+        if (!canDistract)
+            return;
+        Instantiate(orangeFood, transform.position, Quaternion.identity); // o que é isso Quaternion.identity
+        canDistract = false;
+        StartCoroutine(DistractionCooldownCoroutine());
         //transform.rotation *= Quaternion.Euler(90, 0, 0); Rotate 90deg
         //weapon.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     private void Shoot2() {
-        var bulletObject = Instantiate(blueFood, transform.position, Quaternion.identity);
+        if (BlueFoodCount <= 0)
+            return;
+        
+        BlueFoodCount--;
+        Instantiate(blueFood, transform.position, Quaternion.identity);
     }
 
     
@@ -105,6 +133,11 @@ public class Player : MonoBehaviour {
             legAnim.SetBool("Moving", true);
     }
 
-
+    private IEnumerator DistractionCooldownCoroutine()
+    {
+        MainUI.Instance.StartCooldown(distractionCooldown);
+        yield return new WaitForSeconds(distractionCooldown);
+        canDistract = true;
+    }
 
 }
