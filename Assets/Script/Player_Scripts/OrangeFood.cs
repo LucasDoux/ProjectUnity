@@ -5,7 +5,9 @@ using UnityEngine.Events;
 
 public class OrangeFood : MonoBehaviour {
 
-    public float Depletion = 150;
+    #region Variables
+
+    public float Depletion = 175;
     public Transform areaTransform;
     protected float OriginalDepletion;
     public Transform barTransform;
@@ -13,14 +15,15 @@ public class OrangeFood : MonoBehaviour {
 
     public float Radius => areaTransform.localScale.x/2;
 
-    // Start is called before the first frame update
+    #endregion
+
+    #region Unity Events
     void Start() {
         OriginalDepletion = Depletion;
         Food.Add(this);
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() {
         Food.Remove(this);
     }
 
@@ -40,4 +43,6 @@ public class OrangeFood : MonoBehaviour {
             Debug.Log(collision.gameObject.tag);
         }
     }
+
+    #endregion
 }

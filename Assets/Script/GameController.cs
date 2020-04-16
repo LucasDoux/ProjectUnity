@@ -7,18 +7,22 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class GameController : MonoBehaviour
-{
+public class GameController : MonoBehaviour {
+
+    #region Singleton Implementation
+
     private static GameController _instance;
-    public static GameController Instance
-    {
+    public static GameController Instance {
         get => _instance;
-        set
-        {
+        set {
             if (_instance == null)
                 _instance = value;
         }
     }
+
+    #endregion
+
+    #region Control Variables
 
     public List<GameObject> Food = new List<GameObject>();
     public List<EnemyFollow> Cats = new List<EnemyFollow>();
@@ -33,6 +37,10 @@ public class GameController : MonoBehaviour
     public BoxCollider2D CatSpawn;
     public float minDistance;
     private Player player;
+
+    #endregion
+
+    #region Unity Events
 
     public void Awake() {
         // var bounds = FoodSpawn.bounds;
@@ -58,23 +66,25 @@ public class GameController : MonoBehaviour
         //
         // Instantiate(FoodPrefab, pos1, Quaternion.identity);
         // Instantiate(FoodPrefab, pos2, Quaternion.identity);
+
         player = FindObjectOfType<Player>();
         Instance = this;
         waveCount = 0;
         WaveEnum = Waves.GetEnumerator();
     }
 
-    private void Start()
-    {
+    private void Start() {
         StartCoroutine(WaitAnd(5, StartNextWave));
     }
 
-    private void StartNextWave()
-    {
+    #endregion
+
+    #region Functions
+
+    private void StartNextWave() {
         var hasNextWave = WaveEnum.MoveNext();
 
-        if (!hasNextWave)
-        {
+        if (!hasNextWave) {
             MainUI.Instance.Win();
             return;
         }
@@ -84,15 +94,13 @@ public class GameController : MonoBehaviour
         waveCount++;
         MainUI.Instance.SetWave(waveCount);
 
-        for (int i = 0; i < wave.FoodCount; i++)
-        {
+        for (int i = 0; i < wave.FoodCount; i++) {
             var pos = GetRandomPositionInBounds(FoodSpawn.bounds);
             var food = Instantiate(FoodPrefab, pos, Quaternion.identity);
             Food.Add(food);
         }
 
-        for (int i = 0; i < wave.CatCount; i++)
-        {
+        for (int i = 0; i < wave.CatCount; i++) {
             var pos = GetRandomPositionInBounds(CatSpawn.bounds);
             var cat = Instantiate(GetRandomCatPrefab(), pos, Quaternion.identity).GetComponent<EnemyFollow>();
             Cats.Add(cat);
@@ -101,24 +109,20 @@ public class GameController : MonoBehaviour
         StartCoroutine(CountDownWave(wave.WaveDuration));
     }
     
-    private IEnumerator WaitAnd(float time, Action action)
-    {
+    private IEnumerator WaitAnd(float time, Action action) {
         yield return new WaitForSeconds(time);
         action.Invoke();
     }
 
-    private IEnumerator WaitFor(Func<bool> condition, Action action)
-    {
+    private IEnumerator WaitFor(Func<bool> condition, Action action) {
         while (condition.Invoke() == false)
             yield return null;
         
         action.Invoke();
     }
 
-    private IEnumerator CountDownWave(int seconds)
-    {
-        while (seconds >= 0 && Food.Any())
-        {
+    private IEnumerator CountDownWave(int seconds) {
+        while (seconds >= 0 && Food.Any()) {
             MainUI.Instance.SetRemainingTimeText(seconds);
             seconds--;
             yield return new WaitForSeconds(1);
@@ -126,23 +130,20 @@ public class GameController : MonoBehaviour
 
         MainUI.Instance.SetRemainingTimeText(0);
         
-        foreach (var cat in Cats)
-        {
+        foreach (var cat in Cats) {
             cat.State = EnemyFollow.CatState.Leaving;
         }
 
         while (Cats.Count > 0)
             yield return null;
 
-        foreach (var food in Food)
-        {
+        foreach (var food in Food) {
             Destroy(food);
         }
 
         var playerFoods = GameObject.FindGameObjectsWithTag("Food");
 
-        foreach (var playerFood in playerFoods)
-        {
+        foreach (var playerFood in playerFoods) {
             Destroy(playerFood);
         }
         
@@ -153,25 +154,24 @@ public class GameController : MonoBehaviour
         StartNextWave();
     }
 
-    private Vector2 GetRandomPositionInBounds(Bounds bounds)
-    {
+    private Vector2 GetRandomPositionInBounds(Bounds bounds) {
         var min = bounds.min;
         var max = bounds.max;
         
         return new Vector3(Random.Range(min.x,max.x), Random.Range(min.y,max.y));
     }
 
-    private GameObject GetRandomCatPrefab()
-    {
+    private GameObject GetRandomCatPrefab() {
         var size = CatPrefabs.Count;
         var index = Random.Range(0, size);
         return CatPrefabs[index];
     }
     
-    [Serializable] public struct WaveInfo
-    {
+    [Serializable] public struct WaveInfo {
         public int FoodCount;
         public int CatCount;
         public int WaveDuration;
     }
+
+    #endregion
 }

@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour {
 
+    #region Variables
+
     public GameObject orangeFood;
     public GameObject blueFood;
     private GameObject weapon;
@@ -17,7 +19,7 @@ public class Player : MonoBehaviour {
     public Animator legAnim;
 
     public float moveSpeed = 5f;
-    public float distractionCooldown = 0.5f;
+    public float distractionCooldown = 4f;
     Vector2 movement;
     Vector2 mousePos;
 
@@ -25,16 +27,18 @@ public class Player : MonoBehaviour {
     private PolygonCollider2D weaponCollider;
     private bool canDistract = true;
     [SerializeField] private int _blueFoodCount;
-    public int BlueFoodCount
-    {
+    public int BlueFoodCount {
         get => _blueFoodCount;
-        set
-        {
+        set {
             _blueFoodCount = value;
             MainUI.Instance.SetBlueCount(value);
         }
     }
-    
+
+    #endregion
+
+    #region Unity Events
+
     void Awake() {
         //legAnim = transform.GetChild(2).GetComponent<Animator>();
         foreach (Transform child in this.gameObject.transform) {
@@ -93,6 +97,28 @@ public class Player : MonoBehaviour {
         }
     }
 
+    private void FixedUpdate() {
+        rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement);
+        Vector2 lookDir = mousePos - rb.position;
+
+        //Atan2 = Retorna o ângulo em radianos cujo Tan é y/x.
+        //Valor de retorno é o ângulo entre o eixo x e um vetor 2D começando em zero e terminando em(x, y).
+        //Constante de conversão de radianos para graus (somente leitura).
+        //Isso é igual a 360 / (PI * 2).
+
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+        rb.rotation = angle;
+
+        if (movement == Vector2.zero)
+            legAnim.SetBool("Moving", false);
+        else
+            legAnim.SetBool("Moving", true);
+    }
+
+    #endregion
+
+    #region Weapon Shots
+
     private void Shoot1(){
         if (!canDistract)
             return;
@@ -111,33 +137,12 @@ public class Player : MonoBehaviour {
         Instantiate(blueFood, transform.position, Quaternion.identity);
     }
 
-    
-    private void FixedUpdate()
-    {
-        rb.MovePosition(rb.position +  moveSpeed * Time.fixedDeltaTime * movement);
-        Vector2 lookDir = mousePos - rb.position;
-
-        //Atan2 = Retorna o ângulo em radianos cujo Tan é y/x.
-        //Valor de retorno é o ângulo entre o eixo x e um vetor 2D começando em zero e terminando em(x, y).
-
-        //Constante de conversão de radianos para graus (somente leitura).
-
-        //Isso é igual a 360 / (PI * 2).
-
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-        rb.rotation = angle;
-
-        if (movement == Vector2.zero)
-            legAnim.SetBool("Moving", false);
-        else
-            legAnim.SetBool("Moving", true);
-    }
-
-    private IEnumerator DistractionCooldownCoroutine()
-    {
+    private IEnumerator DistractionCooldownCoroutine() {
         MainUI.Instance.StartCooldown(distractionCooldown);
         yield return new WaitForSeconds(distractionCooldown);
         canDistract = true;
     }
+
+    #endregion
 
 }

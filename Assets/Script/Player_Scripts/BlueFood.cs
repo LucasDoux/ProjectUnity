@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BlueFood : OrangeFood {
+    // Colisão + depletion
     protected override void OnCollisionStay2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Cat")) {
             if (barTransform.gameObject.GetComponent<SpriteRenderer>().enabled == false) {

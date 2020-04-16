@@ -4,9 +4,16 @@ using System.Linq;
 using UnityEngine;
 
 public class Lifebar : MonoBehaviour {
+
+    #region Variables
+
     public RectTransform LayoutContent;
     public GameObject LifeBarPrefab;
     public List<GameObject> Lifebars;
+
+    #endregion
+
+    #region Functions
 
     public void UpdateLife(int life) {
         if (life == Lifebars.Count)
@@ -31,4 +38,6 @@ public class Lifebar : MonoBehaviour {
     public int GetLife() {
         return Lifebars.Count;
     }
+
+    #endregion
 }

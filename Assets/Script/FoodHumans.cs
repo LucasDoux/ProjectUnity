@@ -5,22 +5,25 @@ using UnityEngine;
 
 public class FoodHumans : MonoBehaviour {
 
-    public float Depletion = 300;
+    #region Variables
+
+    public float Depletion = 220;
     private float OriginalDepletion;
     public Transform barTransform;
 
-    // Start is called before the first frame update
+    #endregion
+
+    #region Unity Events
+
     void Start() {
         OriginalDepletion = Depletion;
     }
     
-    // Update is called once per frame
     void Update() {
         
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() {
         GameController.Instance.Food.Remove(gameObject);
     }
 
@@ -46,4 +49,6 @@ public class FoodHumans : MonoBehaviour {
         yield return new WaitForSeconds(seconds);
         Destroy(gameObject);
     }
+
+    #endregion
 }

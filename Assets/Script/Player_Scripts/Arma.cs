@@ -8,11 +8,13 @@ public class Arma : MonoBehaviour {
     private int counter;
 
     public void FixedUpdate() {
+        /*
         counter++;
         if (counter >= 10) {
             counter = 0;
 
             //ArmaAreaCollider.cont
         }
+        */
     }
 }

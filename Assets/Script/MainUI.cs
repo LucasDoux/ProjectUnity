@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainUI : MonoBehaviour
-{
+public class MainUI : MonoBehaviour {
+
     #region Singleton Implementation
 
     private static MainUI _instance;
@@ -39,64 +39,58 @@ public class MainUI : MonoBehaviour
 
     #endregion
 
-    private void Awake()
-    {
+    #region Unity Events
+
+    private void Awake() {
         _instance = this;
     }
 
-    private void Start()
-    {
+    private void Start() {
         orangeCooldownAxis.rotation = Quaternion.Euler(0, 90, 0);
     }
 
-    public void SetWave(int wave)
-    {
+    #endregion
+
+    #region Functions
+
+    public void SetWave(int wave) {
         waveText.text = wave.ToString();
     }
 
-    public void SetRemainingTimeText(int remainingTime)
-    {
+    public void SetRemainingTimeText(int remainingTime) {
         remainingTimeText.text = remainingTime.ToString();
     }
 
-    public void SetSelectedWeapon(int weapon)
-    {
-        if (weapon == 1)
-        {
+    public void SetSelectedWeapon(int weapon) {
+        if (weapon == 1) {
             orangeSelectedImage.enabled = true;
             blueSelectedImage.enabled = false;
-        } else if (weapon == 2)
-        {
+        } else if (weapon == 2) {
             orangeSelectedImage.enabled = false;
             blueSelectedImage.enabled = true;
         }
     }
 
-    public void StartCooldown(float cooldownTime)
-    {
+    public void StartCooldown(float cooldownTime) {
         if (orangeCooldownCoroutine != null)
             StopCoroutine(orangeCooldownCoroutine);
 
         orangeCooldownCoroutine = StartCoroutine(CooldownCoroutine(cooldownTime));
     }
 
-    public void SetBlueCount(int count)
-    {
+    public void SetBlueCount(int count) {
         blueCount.text = count.ToString();
     }
 
-    public void Win()
-    {
+    public void Win() {
         Time.timeScale = 0;
         winImage.enabled = true;
     }
     
-    private IEnumerator CooldownCoroutine(float cooldownTime)
-    {
+    private IEnumerator CooldownCoroutine(float cooldownTime) {
         var elapsedTime = 0f;
 
-        while (elapsedTime < cooldownTime)
-        {
+        while (elapsedTime < cooldownTime) {
             var ratio = elapsedTime / cooldownTime;
             orangeCooldownAxis.rotation = Quaternion.Euler(0, 90 * ratio, 0);
             yield return null;
@@ -105,4 +99,6 @@ public class MainUI : MonoBehaviour
         
         orangeCooldownAxis.rotation = Quaternion.Euler(0,90,0);
     }
+
+    #endregion
 }

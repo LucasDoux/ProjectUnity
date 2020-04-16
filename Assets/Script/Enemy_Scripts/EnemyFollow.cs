@@ -5,8 +5,8 @@ using System.Dynamic;
 using UnityEngine;
 using System.Linq;
 
-public class EnemyFollow : MonoBehaviour
-{
+public class EnemyFollow : MonoBehaviour {
+
     #region Parameters
     public float knockbackForce;
     private bool canWalk;
@@ -43,8 +43,7 @@ public class EnemyFollow : MonoBehaviour
 
     //State machine do Gato
     [Serializable]
-    public enum CatState
-    {
+    public enum CatState {
         Eating,
         Knockback,
         Distracted,
@@ -54,17 +53,14 @@ public class EnemyFollow : MonoBehaviour
     //Estado atual
     [SerializeField] private CatState _state;
 
-    public CatState State
-    {
+    public CatState State {
         get => _state;
         //State initialization
-        set
-        {
+        set {
             //Não pode sair do Leaving
             if (_state == CatState.Leaving)
                 return;
-            switch (value)
-            {
+            switch (value) {
                 case CatState.Eating:
                     //Get closest food
                     closestFood = FindNearestWithTag("Finish").transform;
@@ -92,21 +88,17 @@ public class EnemyFollow : MonoBehaviour
 
     #region Unity Events
 
-    private void Awake()
-    {
+    private void Awake() {
         player = FindObjectOfType<Player>();
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Start()
-    {
+    void Start() {
         State = CatState.Eating;
     }
 
-    private void FixedUpdate()
-    {
-        switch (State)
-        {
+    private void FixedUpdate() {
+        switch (State) {
             case CatState.Eating: 
                 EatingLogic();
                 break;
@@ -122,16 +114,13 @@ public class EnemyFollow : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Arma") && State != CatState.Knockback)
-        {
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.CompareTag("Arma") && State != CatState.Knockback) {
             ReceiveKnockback(other.transform);
         }
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() {
         GameController.Instance.Cats.Remove(this);
     }
 
@@ -139,19 +128,15 @@ public class EnemyFollow : MonoBehaviour
 
     #region State Logic
     
-    private void EatingLogic()
-    {
-        if (!GameController.Instance.Food.Any())
-        {
+    private void EatingLogic() {
+        if (!GameController.Instance.Food.Any()) {
             State = CatState.Leaving;
             return;
         }
 
-        if (closestFood == null)
-        {
+        if (closestFood == null) {
             closestFood = FindNearestWithTag("Finish")?.transform;
-            if (closestFood == null)
-            {
+            if (closestFood == null) {
                 State = CatState.Leaving;
                 return;
             }
@@ -163,23 +148,19 @@ public class EnemyFollow : MonoBehaviour
         rb.velocity = direction*speed;
         
         //Should be distracted?
-        if (OrangeFood.Food.Count > 0)
-        {
+        if (OrangeFood.Food.Count > 0) {
             if (ClosestDistraction() != null)
                 _state = CatState.Distracted;
         }
     }
 
-    private void DistractedLogic()
-    {
-        if (!OrangeFood.Food.Any())
-        {
+    private void DistractedLogic() {
+        if (!OrangeFood.Food.Any()) {
             _state = CatState.Eating;
             return;
         }
         var dist = ClosestDistraction();
-        if (dist == null)
-        {
+        if (dist == null) {
             _state = CatState.Eating;
             return;
         }
@@ -188,13 +169,11 @@ public class EnemyFollow : MonoBehaviour
         rb.velocity = direction * speed;
     }
 
-    private void KnockbackLogic()
-    {
+    private void KnockbackLogic() {
         
     }
     
-    private void LeavingLogic()
-    {
+    private void LeavingLogic() {
         var distance = Vector3.Distance(closestLeavingPoint.position, transform.position);
         if (distance <= 0.5f)
             Destroy(gameObject);
@@ -204,15 +183,13 @@ public class EnemyFollow : MonoBehaviour
 
     #region Functions
 
-    private Transform ClosestDistraction()
-    {
+    private Transform ClosestDistraction()  {
         if (!OrangeFood.Food.Any())
             return null;
         
         var closestDistraction = OrangeFood.Food
             .Aggregate((f1,f2) => 
-                Vector3.Distance(f1.transform.position,transform.position) < Vector3.Distance(f2.transform.position,transform.position) ?
-                    f1 : f2);
+            Vector3.Distance(f1.transform.position,transform.position) < Vector3.Distance(f2.transform.position,transform.position) ? f1 : f2);
 
         if (closestDistraction.Radius >= Vector3.Distance(closestDistraction.transform.position, transform.position))
             return closestDistraction.transform;
@@ -238,8 +215,7 @@ public class EnemyFollow : MonoBehaviour
         return closest;
     }
 
-    public void ReceiveKnockback(Transform source)
-    {
+    public void ReceiveKnockback(Transform source) {
         if (State == CatState.Knockback)
             return;
 
@@ -249,8 +225,7 @@ public class EnemyFollow : MonoBehaviour
         StartCoroutine(EndKnockback(0.35f));
     }
 
-    private IEnumerator EndKnockback(float delay)
-    {
+    private IEnumerator EndKnockback(float delay) {
         yield return new WaitForSeconds(delay);
         //Ignore if state has been overriden
         if (State == CatState.Knockback)
@@ -259,8 +234,7 @@ public class EnemyFollow : MonoBehaviour
         }
     }
 
-    private IEnumerator DestroyAfter(float seconds)
-    {
+    private IEnumerator DestroyAfter(float seconds) {
         yield return new WaitForSeconds(seconds);
         Destroy(gameObject);
     }
