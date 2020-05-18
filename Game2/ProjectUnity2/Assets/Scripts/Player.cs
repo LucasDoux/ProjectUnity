@@ -1,19 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     //--------------------VARIAVEIS--------------------//
-    public float laneSpeed;
+
     public float speed;
+    public float laneSpeed;
+
+    private Rigidbody rb;
     private int currentLane = 1;
     private Vector3 verticalTargetPosition;
 
     //-------------------------------------------------//
-
-    private Rigidbody rb;
-    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,18 +23,20 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) //mudança de lanes pelas teclas
+        if (Input.GetKeyDown(KeyCode.LeftArrow))//mudança de lanes pelas teclas
         {
-            ChangeLane(-1); //esquerda
+            ChangeLane(-1);//esquerda
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow)) //mudança de lanes pelas teclas
+        else if (Input.GetKeyDown(KeyCode.RightArrow))//mudança de lanes pelas teclas
         {
-            ChangeLane(1); //direita
+            ChangeLane(1);//direita
         }
 
-        Vector3 targetPosition = new Vector3(verticalTargetPosition.x, verticalTargetPosition.y,verticalTargetPosition.z) ; //posição alvo desejada
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, laneSpeed * Time.deltaTime); //passando posição atual, passando posição pra onde deseja ir, passando velocidade até a posição alvo
+        Vector3 targetPosition = new Vector3(verticalTargetPosition.x, verticalTargetPosition.y , transform.position.z ); //posição alvo desejada
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, laneSpeed * Time.deltaTime);  //passando posição atual, passando posição pra onde deseja ir, passando velocidade até a posição alvo
     }
+
+    
 
     private void FixedUpdate() //chamada acada tempo fixo, padrão do tempo: 0,02s
     {
@@ -41,12 +44,12 @@ public class Player : MonoBehaviour
     }
 
 
-    void ChangeLane(int direction)
+     void ChangeLane(int direction)
     {
-        int targetLane = currentLane + direction; //lane que ira ser escolhida(esquerda,meio,direita)
+        int targetLane = currentLane + direction; ; //lane que ira ser escolhida(esquerda,meio,direita)
         if (targetLane < 0 || targetLane > 2) //verificando valor de targetLane
             return;
-        currentLane = targetLane;  //lane atual
-        verticalTargetPosition = new Vector3((currentLane - 1), 0, 0); //atualizando vetor
+        currentLane = targetLane; //lane atual
+        verticalTargetPosition = new Vector3((currentLane - 1), 0 ,0); //atualizando vetor
     }
 }
