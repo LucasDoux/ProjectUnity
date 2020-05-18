@@ -353,6 +353,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   laneSpeed: 10
+  jumpLength: 7.5
+  jumpHeight: 2
+  slideLength: 7.5
 --- !u!54 &550438786
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -9,15 +9,29 @@ public class Player : MonoBehaviour
 
     public float speed;
     public float laneSpeed;
+    public float jumpLength;
+    public float jumpHeight;
+    public float slideLength;
 
+    private Animator anim;
     private Rigidbody rb;
+    private BoxCollider boxCollider;
     private int currentLane = 1;
     private Vector3 verticalTargetPosition;
-
+    private bool jumping = false;
+    private float jumpStart;
+    private bool sliding = false;
+    private float slideStart;
+    private Vector3 boxColliderSize;
+    
     //-------------------------------------------------//
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
+        boxCollider = GetComponent<BoxCollider>();
+        boxColliderSize = boxCollider.size;
+        anim.Play("runStart");
     }
 
     // Update is called once per frame
@@ -30,6 +44,46 @@ public class Player : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.RightArrow))//mudança de lanes pelas teclas
         {
             ChangeLane(1);//direita
+        }
+
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Jump();
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Slider();
+        }
+
+
+        if (jumping) //verificando se o jumping é verdadeiro
+        {
+            float ratio = (transform.position.z - jumpStart) / jumpLength; //controla a porporção do pulo
+            if(ratio >= 1f)
+            {
+                jumping = false; //pulo acabou
+                anim.SetBool("Jumping", false);
+            }
+            else
+            {
+                verticalTargetPosition.y = Mathf.Sin(ratio * Mathf.PI) * jumpHeight;
+            }
+        }
+
+        else
+        {
+            verticalTargetPosition.y = Mathf.MoveTowards(verticalTargetPosition.y, 0, 5 * Time.deltaTime);//atualizando para onnde deseja ir
+        }
+
+        if (sliding)
+        {
+            float ratio = (transform.position.z - slideStart) / slideLength; //verificando porporção do slde
+            if(ratio >= 1)
+            {
+                sliding = false;
+                anim.SetBool("Sliding", false);
+                boxCollider.size = boxColliderSize;
+            }
         }
 
         Vector3 targetPosition = new Vector3(verticalTargetPosition.x, verticalTargetPosition.y , transform.position.z ); //posição alvo desejada
@@ -51,5 +105,32 @@ public class Player : MonoBehaviour
             return;
         currentLane = targetLane; //lane atual
         verticalTargetPosition = new Vector3((currentLane - 1), 0 ,0); //atualizando vetor
+    }
+
+
+    void Jump()
+    {
+        if (!jumping)//verificando se não esta pulando
+        {
+            jumpStart = transform.position.z;
+            anim.SetFloat("JumpSpeed", speed / jumpLength ); //animação vai ser a velocidade divido pelo tamanho do pulo
+            anim.SetBool("Jumping", true);
+            jumping = true; //controla o pulo
+        }
+    }
+
+
+    void Slider()
+    {
+        if(!jumping && !sliding)//nao permite fazer o slide enquanto está pulando e nem que fique escorregando infinitamente
+        {
+            slideStart = transform.position.z;
+            anim.SetFloat("JumpSpeed", speed / slideLength);
+            anim.SetBool("Sliding", true);
+            Vector3 newSize = boxCollider.size; //diminuir o tamanho da box colider quando deslizar
+            newSize.y = newSize.y / 2;
+            boxCollider.size = newSize;
+            sliding = true;
+        }
     }
 }
