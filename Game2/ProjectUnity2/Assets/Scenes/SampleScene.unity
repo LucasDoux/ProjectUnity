@@ -1138,6 +1138,10 @@ MonoBehaviour:
   jumpLength: 7.5
   jumpHeight: 2
   slideLength: 7.5
+  maxLife: 3
+  minSpeed: 10
+  maxSpeed: 30
+  invencibleTime: 5
 --- !u!54 &550438786
 Rigidbody:
   m_ObjectHideFlags: 0
