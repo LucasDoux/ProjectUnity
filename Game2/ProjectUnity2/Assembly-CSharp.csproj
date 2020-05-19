@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\RandomAnimation.cs" />
+    <Compile Include="Assets\Scripts\Track.cs" />
     <Compile Include="Assets\Scripts\WorldCurver.cs" />
     <None Include="Assets\Shaders\CurvedRotation.shader" />
     <None Include="Assets\Link.xml" />
