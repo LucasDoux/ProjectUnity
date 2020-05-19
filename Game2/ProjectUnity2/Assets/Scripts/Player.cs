@@ -12,6 +12,11 @@ public class Player : MonoBehaviour
     public float jumpLength;
     public float jumpHeight;
     public float slideLength;
+    public int maxLife = 3;
+    public float minSpeed = 10f;
+    public float maxSpeed = 30f;
+    public float invencibleTime;
+    // public GameObject model; //Usado para blinkar o player se estiver usando outro asset (Vai ser nosso caso)
 
     private Animator anim;
     private Rigidbody rb;
@@ -23,6 +28,10 @@ public class Player : MonoBehaviour
     private bool sliding = false;
     private float slideStart;
     private Vector3 boxColliderSize;
+    private int currentLife;
+    private bool invencible = false;
+    private int blinkingValue;
+    private UIManager uiManager;
     
     //-------------------------------------------------//
     void Start()
@@ -32,6 +41,10 @@ public class Player : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         boxColliderSize = boxCollider.size;
         anim.Play("runStart");
+        currentLife = maxLife;
+        speed = minSpeed;
+        blinkingValue = Shader.PropertyToID("_BlinkingValue");
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     // Update is called once per frame
@@ -132,5 +145,53 @@ public class Player : MonoBehaviour
             boxCollider.size = newSize;
             sliding = true;
         }
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if(invencible)
+            return;
+
+        if(other.CompareTag("Obstacle")) {
+            currentLife--;
+            uiManager.UpdateLifes(currentLife);
+            anim.SetTrigger("Hit");
+            speed = 0;
+            if(currentLife <= 0) {
+                //TODO: Game Over
+            } else {
+                StartCoroutine(Blinking(invencibleTime));
+            }
+        }
+    }
+
+    IEnumerator Blinking(float time) {
+        invencible = true;
+        float timer = 0;
+        float currentBlink = 1f;
+        float lastBlink = 0;
+        float blinkPeriod = 0.1f;
+        // bool enabled = false;
+        yield return new WaitForSeconds(1f);
+        speed = minSpeed;
+        while(timer < time && invencible) {
+            //Essa forma provavelmente só irá funcionar nesse shader. Para funcionar noutro
+            //é bom desativar e ativar o modelo. (Aula 6)
+
+            //para utilizar a forma de desativar e ativar o modelo, basta descomentar o que está comentado neste método e a variável model.
+
+            // model.SetActive(enabled);
+            Shader.SetGlobalFloat(blinkingValue, currentBlink);
+            yield return null;
+            timer += Time.deltaTime;
+            lastBlink += Time.deltaTime;
+            if(blinkPeriod < lastBlink) {
+                lastBlink = 0;
+                currentBlink = 1f - currentBlink;
+                // enabled = !enabled;
+            }
+        }
+        // model.SetActive(true);
+        Shader.SetGlobalFloat(blinkingValue, 0);
+        invencible = false;
     }
 }
