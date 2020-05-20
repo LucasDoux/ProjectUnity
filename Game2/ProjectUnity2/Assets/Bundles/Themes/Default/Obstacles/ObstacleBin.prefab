@@ -102,6 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012654174542}
   - component: {fileID: 65000012973518938}
+  - component: {fileID: 114120735002097016}
   m_Layer: 9
   m_Name: ObstacleBin
   m_TagString: Obstacle
@@ -139,6 +140,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.6750975, z: 0.9589204}
   m_Center: {x: 0, y: 0.85786104, z: 0}
+--- !u!114 &114120735002097016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011638144408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44fd8b257caca6c4188b933fdb6a39f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1000012535006976
 GameObject:
   m_ObjectHideFlags: 0

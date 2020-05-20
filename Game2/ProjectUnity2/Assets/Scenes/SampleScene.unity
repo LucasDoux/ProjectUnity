@@ -1767,7 +1767,10 @@ MonoBehaviour:
   - {fileID: 1000013842435444, guid: d68ac797bf384f84bbca159dc2a6e4d7, type: 3}
   - {fileID: 1000010256476064, guid: f0070c0f7d7cdcb4eb7176be4a87caa9, type: 3}
   numberOfObstacles: {x: 15, y: 20}
+  coin: {fileID: 1708735892286010562, guid: 6170d591accbaa7429588c6494b90a52, type: 3}
+  numberOfCoins: {x: 75, y: 100}
   newObstacles: []
+  newCoins: []
 --- !u!65 &801845919
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2464,7 +2467,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 16, y: 0}
+  m_AnchoredPosition: {x: 7, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1499614161
@@ -2857,7 +2860,10 @@ MonoBehaviour:
   - {fileID: 1000013842435444, guid: d68ac797bf384f84bbca159dc2a6e4d7, type: 3}
   - {fileID: 1000010256476064, guid: f0070c0f7d7cdcb4eb7176be4a87caa9, type: 3}
   numberOfObstacles: {x: 15, y: 20}
+  coin: {fileID: 1708735892286010562, guid: 6170d591accbaa7429588c6494b90a52, type: 3}
+  numberOfCoins: {x: 75, y: 100}
   newObstacles: []
+  newCoins: []
 --- !u!65 &1591944525
 BoxCollider:
   m_ObjectHideFlags: 0
