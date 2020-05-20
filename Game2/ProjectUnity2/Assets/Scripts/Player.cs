@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     private bool invencible = false;
     private int blinkingValue;
     private UIManager uiManager;
+    private int coins;
     
     //-------------------------------------------------//
     void Start()
@@ -148,6 +149,14 @@ public class Player : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
+
+        if(other.CompareTag("Coin"))
+        {
+            coins++; //Sobe a quantidade de coins coletados em 1
+            uiManager.UpdateCoins(coins); //Atualiza a tela com o número atual de coins
+            other.transform.parent.gameObject.SetActive(false); //Desativa a colisão com o coin depois de já ter colidido
+        }
+
         if(invencible)
             return;
 
