@@ -67,6 +67,7 @@ public class Track : MonoBehaviour
     {
         if (other.CompareTag("Player")) //se colidir com a tag player
         {
+            other.GetComponent<Player>().IncreaseSpeed();
             transform.position = new Vector3(0, 0, transform.position.z + 292 * 2); //alterando apenas a profundidade, pegando a posição atual + tamanho da pista * 2, quando chegar ao final da pista vai pegar a segunda pista e colocar como a atual
             PositionateObstacles();
             PositionateCoins();

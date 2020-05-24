@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     private int blinkingValue;
     private UIManager uiManager;
     private int coins;
+    private float score;
     
     //-------------------------------------------------//
     void Start()
@@ -51,6 +52,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        score += Time.deltaTime * speed;
+        uiManager.UpdateScore((int)score);
         if (Input.GetKeyDown(KeyCode.LeftArrow))//mudança de lanes pelas teclas
         {
             ChangeLane(-1);//esquerda
@@ -166,7 +169,10 @@ public class Player : MonoBehaviour
             anim.SetTrigger("Hit");
             speed = 0;
             if(currentLife <= 0) {
-                //TODO: Game Over
+                speed = 0;
+                anim.SetBool("Dead", true);
+                uiManager.gameOverPanel.SetActive(true);
+                Invoke("CallMenu", 2f);
             } else {
                 StartCoroutine(Blinking(invencibleTime));
             }
@@ -202,5 +208,19 @@ public class Player : MonoBehaviour
         // model.SetActive(true);
         Shader.SetGlobalFloat(blinkingValue, 0);
         invencible = false;
+    }
+
+    void CallMenu()
+    {
+        GameManager.gm.EndRun();
+    }
+
+    public void IncreaseSpeed()
+    {
+        speed *= 1.15f;
+        if(speed >= maxSpeed)
+        {
+            speed = maxSpeed;
+        }
     }
 }
