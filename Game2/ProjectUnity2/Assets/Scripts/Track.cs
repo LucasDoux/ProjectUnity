@@ -13,33 +13,26 @@ public class Track : MonoBehaviour
     public List<GameObject> newObstacles;
     public List<GameObject> newCoins;
 
-    void Start()
-    {
+    void Start() {
         int newNumberOfObstacles = (int)Random.Range(numberOfObstacles.x, numberOfObstacles.y); //sorteando valores
         int newNumberOfCoins = (int)Random.Range(numberOfCoins.x, numberOfCoins.y);
 
-        for (int i = 0; i < newNumberOfObstacles; i++) //looping
-        {
+        for (int i = 0; i < newNumberOfObstacles; i++) {
             newObstacles.Add(Instantiate(obstacles[Random.Range(0, obstacles.Length)], transform));//instanciando os prefabs(obstaculos)
             newObstacles[i].SetActive(false);//deixando desativado de inicio
         }
 
-        for (int i = 0; i < newNumberOfCoins; i++)
-        {
+        for (int i = 0; i < newNumberOfCoins; i++)  {
             newCoins.Add(Instantiate(coin, transform));
             newCoins[i].SetActive(false);
         }
 
-        PositionateObstacles();
-        PositionateCoins();
+        PlaceObstacles();
+        PlaceCoins();
     }
 
-    
-    
-    void PositionateObstacles() // função para posicionar os obstaculos
-    {
-        for (int i = 0; i < newObstacles.Count; i++)
-        {
+    void PlaceObstacles() {
+        for (int i = 0; i < newObstacles.Count; i++) {
             float posZMin = (292f / newObstacles.Count) + (297f / newObstacles.Count) * i; //posicionando os objetos atraves do tamanho da pista(posição minima)
             float posZMax = (292f / newObstacles.Count) + (297f / newObstacles.Count) * i + 1; //posicionando os objetos atraves do tamanho da pista(posição maxima)
             newObstacles[i].transform.localPosition = new Vector3(0, 0, Random.Range(posZMin, posZMax)); //posicionando em lugares randomicos em z
@@ -49,12 +42,11 @@ public class Track : MonoBehaviour
         }
     }
 
-    void PositionateCoins()
-    {
+    void PlaceCoins() {
         float minZPos = 10f; //Distancia minima para posicionar a moeda
-        for (int i = 0; i < newCoins.Count; i++)
-        {
-            float maxZPos = minZPos + 5f; //Distancia maxima para posicionar a moeda
+
+        for (int i = 0; i < newCoins.Count; i++) {
+            float maxZPos = minZPos + 5f; //Distancia maxima para posicionar a moeda // TODO -----------------
             float randomZPos = Random.Range(minZPos, maxZPos);
             newCoins[i].transform.localPosition = new Vector3(transform.position.x, transform.position.y, randomZPos); //Posicionando em lugares randomicos em z
             newCoins[i].SetActive(true); //Ativando a moeda
@@ -63,14 +55,12 @@ public class Track : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other) //alterando a posição da pista
-    {
-        if (other.CompareTag("Player")) //se colidir com a tag player
-        {
+    private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Player")) {//se colidir com a tag player
             other.GetComponent<Player>().IncreaseSpeed();
             transform.position = new Vector3(0, 0, transform.position.z + 292 * 2); //alterando apenas a profundidade, pegando a posição atual + tamanho da pista * 2, quando chegar ao final da pista vai pegar a segunda pista e colocar como a atual
-            PositionateObstacles();
-            PositionateCoins();
+            PlaceObstacles();
+            PlaceCoins();
         }
     }
 

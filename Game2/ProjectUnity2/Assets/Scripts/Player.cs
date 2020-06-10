@@ -3,100 +3,101 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
-{
+
+public class Player : MonoBehaviour {
     //--------------------VARIAVEIS--------------------//
 
     public float speed;
-    public float laneSpeed;
-    public float jumpLength;
-    public float jumpHeight;
-    public float slideLength;
-    public int maxLife = 3;
     public float minSpeed = 10f;
     public float maxSpeed = 30f;
-    public float invencibleTime;
+
+    public float laneSpeed;
+    private int currentLane = 1;
+
+    public int horizontalInput;
+    public int oldHInput;
+
+    public float jumpLength;
+    public float jumpHeight;
+    private bool jumping = false;
+    private float jumpStart;
+
+    public float slideLength;
+    private bool sliding = false;
+    private float slideStart;
+
+    private int currentLife;
+    public int maxLife = 3;
+    private int coins;
+    private float score;
+
+    public float invincibleTime;
+    private bool invincible = false;
+    private int blinkingValue;
     // public GameObject model; //Usado para blinkar o player se estiver usando outro asset (Vai ser nosso caso)
 
     private Animator anim;
     private Rigidbody rb;
     private BoxCollider boxCollider;
-    private int currentLane = 1;
     private Vector3 verticalTargetPosition;
-    private bool jumping = false;
-    private float jumpStart;
-    private bool sliding = false;
-    private float slideStart;
     private Vector3 boxColliderSize;
-    private int currentLife;
-    private bool invencible = false;
-    private int blinkingValue;
+    
     private UIManager uiManager;
-    private int coins;
-    private float score;
     
     //-------------------------------------------------//
-    void Start()
-    {
+    void Start() {
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         boxCollider = GetComponent<BoxCollider>();
         boxColliderSize = boxCollider.size;
         anim.Play("runStart");
+
         currentLife = maxLife;
         speed = minSpeed;
+
         blinkingValue = Shader.PropertyToID("_BlinkingValue");
         uiManager = FindObjectOfType<UIManager>();
+
+        horizontalInput = 0;
+        oldHInput = horizontalInput;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         score += Time.deltaTime * speed;
         uiManager.UpdateScore((int)score);
-        if (Input.GetKeyDown(KeyCode.LeftArrow))//mudança de lanes pelas teclas
-        {
-            ChangeLane(-1);//esquerda
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))//mudança de lanes pelas teclas
-        {
-            ChangeLane(1);//direita
+
+        horizontalInput = Convert.ToInt32(Input.GetAxisRaw("Horizontal"));
+
+        if (horizontalInput != oldHInput) {
+            ChangeLane(horizontalInput);
         }
 
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Jump();
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            Slider();
+        oldHInput = horizontalInput;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !jumping) {
+            StartJump();
+        } else if (Input.GetKeyDown(KeyCode.DownArrow) && !jumping && !sliding) {
+            StartSlide();
         }
 
-
-        if (jumping) //verificando se o jumping é verdadeiro
-        {
+        if (jumping) {
             float ratio = (transform.position.z - jumpStart) / jumpLength; //controla a porporção do pulo
-            if(ratio >= 1f)
-            {
+
+            if (ratio >= 1f) {
                 jumping = false; //pulo acabou
                 anim.SetBool("Jumping", false);
-            }
-            else
-            {
+            } else {
                 verticalTargetPosition.y = Mathf.Sin(ratio * Mathf.PI) * jumpHeight;
             }
-        }
-
-        else
-        {
+        } else {
             verticalTargetPosition.y = Mathf.MoveTowards(verticalTargetPosition.y, 0, 5 * Time.deltaTime);//atualizando para onnde deseja ir
         }
 
-        if (sliding)
-        {
+        if (sliding) {
             float ratio = (transform.position.z - slideStart) / slideLength; //verificando porporção do slde
-            if(ratio >= 1)
-            {
+
+            if(ratio >= 1) {
                 sliding = false;
                 anim.SetBool("Sliding", false);
                 boxCollider.size = boxColliderSize;
@@ -106,18 +107,15 @@ public class Player : MonoBehaviour
         Vector3 targetPosition = new Vector3(verticalTargetPosition.x, verticalTargetPosition.y , transform.position.z ); //posição alvo desejada
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, laneSpeed * Time.deltaTime);  //passando posição atual, passando posição pra onde deseja ir, passando velocidade até a posição alvo
     }
-
     
 
-    private void FixedUpdate() //chamada acada tempo fixo, padrão do tempo: 0,02s
-    {
+    private void FixedUpdate() {
         rb.velocity = Vector3.forward * speed;
     }
 
 
-     void ChangeLane(int direction)
-    {
-        int targetLane = currentLane + direction; ; //lane que ira ser escolhida(esquerda,meio,direita)
+    void ChangeLane(int direction) {
+        int targetLane = currentLane + direction; //lane que ira ser escolhida(esquerda,meio,direita)
         if (targetLane < 0 || targetLane > 2) //verificando valor de targetLane
             return;
         currentLane = targetLane; //lane atual
@@ -125,62 +123,55 @@ public class Player : MonoBehaviour
     }
 
 
-    void Jump()
-    {
-        if (!jumping)//verificando se não esta pulando
-        {
-            jumpStart = transform.position.z;
-            anim.SetFloat("JumpSpeed", speed / jumpLength ); //animação vai ser a velocidade divido pelo tamanho do pulo
-            anim.SetBool("Jumping", true);
-            jumping = true; //controla o pulo
-        }
+    void StartJump() {
+        jumpStart = transform.position.z;
+        anim.SetFloat("JumpSpeed", speed / jumpLength); //animação vai ser a velocidade divido pelo tamanho do pulo
+        anim.SetBool("Jumping", true);
+        jumping = true; //controla o pulo
     }
 
 
-    void Slider()
-    {
-        if(!jumping && !sliding)//nao permite fazer o slide enquanto está pulando e nem que fique escorregando infinitamente
-        {
-            slideStart = transform.position.z;
-            anim.SetFloat("JumpSpeed", speed / slideLength);
-            anim.SetBool("Sliding", true);
-            Vector3 newSize = boxCollider.size; //diminuir o tamanho da box colider quando deslizar
-            newSize.y = newSize.y / 2;
-            boxCollider.size = newSize;
-            sliding = true;
-        }
+    void StartSlide() {
+        slideStart = transform.position.z;
+        anim.SetFloat("JumpSpeed", speed / slideLength);
+        anim.SetBool("Sliding", true);
+        Vector3 newSize = boxCollider.size; //diminuir o tamanho da box colider quando deslizar
+        newSize.y = newSize.y / 2;
+        boxCollider.size = newSize;
+        sliding = true;
     }
 
     private void OnTriggerEnter(Collider other) {
 
-        if(other.CompareTag("Coin"))
-        {
+        if(other.CompareTag("Coin")) {
             coins++; //Sobe a quantidade de coins coletados em 1
             uiManager.UpdateCoins(coins); //Atualiza a tela com o número atual de coins
             other.transform.parent.gameObject.SetActive(false); //Desativa a colisão com o coin depois de já ter colidido
         }
 
-        if(invencible)
+        if(invincible)
             return;
 
         if(other.CompareTag("Obstacle")) {
+
             currentLife--;
-            uiManager.UpdateLifes(currentLife);
+            uiManager.UpdateLives(currentLife);
             anim.SetTrigger("Hit");
             speed = 0;
+
             if(currentLife <= 0) {
                 speed = 0;
                 anim.SetBool("Dead", true);
                 uiManager.gameOverPanel.SetActive(true);
                 Invoke("CallMenu", 2f);
             } else {
-                StartCoroutine(Blinking(invencibleTime));
+                StartCoroutine(Blinking(invincibleTime));
             }
         }
     }
 
     IEnumerator Blinking(float time) {
-        invencible = true;
+        invincible = true;
         float timer = 0;
         float currentBlink = 1f;
         float lastBlink = 0;
@@ -188,7 +179,7 @@ public class Player : MonoBehaviour
         // bool enabled = false;
         yield return new WaitForSeconds(1f);
         speed = minSpeed;
-        while(timer < time && invencible) {
+        while(timer < time && invincible) {
             //Essa forma provavelmente só irá funcionar nesse shader. Para funcionar noutro
             //é bom desativar e ativar o modelo. (Aula 6)
 
@@ -199,6 +190,7 @@ public class Player : MonoBehaviour
             yield return null;
             timer += Time.deltaTime;
             lastBlink += Time.deltaTime;
+
             if(blinkPeriod < lastBlink) {
                 lastBlink = 0;
                 currentBlink = 1f - currentBlink;
@@ -207,19 +199,16 @@ public class Player : MonoBehaviour
         }
         // model.SetActive(true);
         Shader.SetGlobalFloat(blinkingValue, 0);
-        invencible = false;
+        invincible = false;
     }
 
-    void CallMenu()
-    {
+    void CallMenu() {
         GameManager.gm.EndRun();
     }
 
-    public void IncreaseSpeed()
-    {
+    public void IncreaseSpeed() {
         speed *= 1.15f;
-        if(speed >= maxSpeed)
-        {
+        if(speed >= maxSpeed) {
             speed = maxSpeed;
         }
     }
