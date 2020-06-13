@@ -5,7 +5,8 @@ using UnityEngine;
 
 
 public class Player : MonoBehaviour {
-    //--------------------VARIAVEIS--------------------//
+
+    #region Variables
 
     public float speed;
     public float minSpeed = 10f;
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour {
     public float invincibleTime;
     private bool invincible = false;
     private int blinkingValue;
-    // public GameObject model; //Usado para blinkar o player se estiver usando outro asset (Vai ser nosso caso)
+    public GameObject model; //Usado para blinkar o player se estiver usando outro asset (Vai ser nosso caso)
 
     private Animator anim;
     private Rigidbody rb;
@@ -43,8 +44,11 @@ public class Player : MonoBehaviour {
     private Vector3 boxColliderSize;
     
     private UIManager uiManager;
-    
-    //-------------------------------------------------//
+
+    #endregion
+
+    #region Unity Events
+
     void Start() {
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
@@ -113,6 +117,9 @@ public class Player : MonoBehaviour {
         rb.velocity = Vector3.forward * speed;
     }
 
+    #endregion
+
+    #region Functions
 
     void ChangeLane(int direction) {
         int targetLane = currentLane + direction; //lane que ira ser escolhida(esquerda,meio,direita)
@@ -212,4 +219,6 @@ public class Player : MonoBehaviour {
             speed = maxSpeed;
         }
     }
+
+    #endregion
 }

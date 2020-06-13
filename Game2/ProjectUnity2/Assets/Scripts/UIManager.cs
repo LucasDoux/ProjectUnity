@@ -9,15 +9,15 @@ public class UIManager : MonoBehaviour {
     public GameObject gameOverPanel;
     public Text scoreText;
 
-    public void UpdateLives(int lifes) {
+    public void UpdateLives(int lives) {
         for(int i = 0; i < lifeHearts.Length; i++) {
             Image currentHeart = lifeHearts[i];
-            currentHeart.color = lifes > i ? Color.white : Color.black;
+            currentHeart.color = lives > i ? Color.black : Color.white;
         }
     }
 
     public void UpdateCoins(int coin) {
-        coinText.text = coin.ToString();
+        coinText.text = "Coins: " + coin.ToString();
     }
 
     public void UpdateScore(int score) {
