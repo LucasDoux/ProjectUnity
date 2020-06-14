@@ -2008,7 +2008,10 @@ MonoBehaviour:
   - {fileID: 1000010256476064, guid: f0070c0f7d7cdcb4eb7176be4a87caa9, type: 3}
   - {fileID: 8397209263086579184, guid: f810033eee46b3b48afac0e5a0d3bc20, type: 3}
   numberOfObstacles: {x: 20, y: 25}
-  coin: {fileID: 1708735892286010562, guid: 6170d591accbaa7429588c6494b90a52, type: 3}
+  coins:
+  - {fileID: 2720685495906485950, guid: a9464d5144937db41a036b2a9ff2fca7, type: 3}
+  - {fileID: 6492864640576742427, guid: ee411854e2b64ff429fb034afa51be61, type: 3}
+  - {fileID: 1708599934139031951, guid: c054102be6cbb9c489673d5c39c7124c, type: 3}
   numberOfCoins: {x: 75, y: 100}
   newObstacles: []
   newCoins: []
@@ -3843,7 +3846,10 @@ MonoBehaviour:
   - {fileID: 1000010256476064, guid: f0070c0f7d7cdcb4eb7176be4a87caa9, type: 3}
   - {fileID: 8397209263086579184, guid: f810033eee46b3b48afac0e5a0d3bc20, type: 3}
   numberOfObstacles: {x: 20, y: 25}
-  coin: {fileID: 1708735892286010562, guid: 6170d591accbaa7429588c6494b90a52, type: 3}
+  coins:
+  - {fileID: 2720685495906485950, guid: a9464d5144937db41a036b2a9ff2fca7, type: 3}
+  - {fileID: 6492864640576742427, guid: ee411854e2b64ff429fb034afa51be61, type: 3}
+  - {fileID: 1708599934139031951, guid: c054102be6cbb9c489673d5c39c7124c, type: 3}
   numberOfCoins: {x: 75, y: 100}
   newObstacles: []
   newCoins: []

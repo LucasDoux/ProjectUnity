@@ -8,7 +8,7 @@ public class Track : MonoBehaviour {
 
     public GameObject[] obstacles; //colocando como vetor pois ira ter mais de um objeto
     public Vector2 numberOfObstacles; //armazenar valor minimo e maximo(quantidade de obstaculos)
-    public GameObject coin;
+    public GameObject[] coins;
     public Vector2 numberOfCoins;
 
     public List<GameObject> newObstacles;
@@ -28,7 +28,8 @@ public class Track : MonoBehaviour {
         }
 
         for (int i = 0; i < newNumberOfCoins; i++)  {
-            newCoins.Add(Instantiate(coin, transform));
+            //newCoins.Add(Instantiate(coin, transform));
+            newCoins.Add(Instantiate(coins[Random.Range(0, coins.Length)], transform));
             newCoins[i].SetActive(false);
         }
 
@@ -57,7 +58,7 @@ public class Track : MonoBehaviour {
         float minZPos = 10f; //Distancia minima para posicionar a moeda
 
         for (int i = 0; i < newCoins.Count; i++) {
-            float maxZPos = minZPos + 5f; //Distancia maxima para posicionar a moeda // TODO -----------------
+            float maxZPos = minZPos + 20f; //Distancia maxima para posicionar a moeda // TODO -----------------
             float randomZPos = Random.Range(minZPos, maxZPos);
 
             newCoins[i].transform.localPosition = new Vector3(transform.position.x, transform.position.y, randomZPos); //Posicionando em lugares randomicos em z
