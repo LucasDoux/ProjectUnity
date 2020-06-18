@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -2187891035148395997}
   m_Layer: 0
   m_Name: ToiletPaper
-  m_TagString: Coin
+  m_TagString: Cleaning
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 80ec667af085360468711554d4179f07,
         type: 3}
       propertyPath: m_TagString
-      value: Coin
+      value: Cleaning
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80ec667af085360468711554d4179f07, type: 3}

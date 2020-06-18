@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
     public Image[] lifeHearts;
-    public Text coinText;
     public GameObject gameOverPanel;
     public Text scoreText;
+    public Text foodText;
+    public Text cleanText;
 
     public void UpdateLives(int lives) {
         for(int i = 0; i < lifeHearts.Length; i++) {
@@ -16,9 +17,17 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-    public void UpdateCoins(int coin) {
-        coinText.text = "Coins: " + coin.ToString();
+    public void UpdateText(string tag, int coin, int stored) {
+        switch (tag) {
+            case "Food":
+                foodText.text = coin.ToString() + " (" + stored.ToString() + ")";
+                break;
+            case "Cleaning":
+                cleanText.text = coin.ToString() + " (" + stored.ToString() + ")";
+                break;
+        }
     }
+
 
     public void UpdateScore(int score) {
         scoreText.text = "Score: " + score + "m";

@@ -29,7 +29,11 @@ public class Player : MonoBehaviour {
 
     private int currentLife;
     public int maxLife = 3;
-    private int coins;
+
+    private int foodCoins;
+    private int cleanCoins;
+    private int storedFood;
+    private int storedClean;
     private float score;
 
     public float invincibleTime;
@@ -64,6 +68,9 @@ public class Player : MonoBehaviour {
 
         horizontalInput = 0;
         oldHInput = horizontalInput;
+
+        storedFood = 0;
+        storedClean = 0;
     }
 
     // Update is called once per frame
@@ -150,11 +157,20 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
 
-        if(other.CompareTag("Coin")) {
-            coins++; //Sobe a quantidade de coins coletados em 1
-            uiManager.UpdateCoins(coins); //Atualiza a tela com o número atual de coins
+        if(other.CompareTag("Food")) {
+            foodCoins++; //Sobe a quantidade de coins coletados em 1
+            uiManager.UpdateText("Food", foodCoins, storedFood); //Atualiza a tela com o número atual de coins
             other.transform.parent.gameObject.SetActive(false); //Desativa a colisão com o coin depois de já ter colidido
+        } else if (other.CompareTag("Cleaning")) {
+            cleanCoins++;
+            uiManager.UpdateText("Cleaning", cleanCoins, storedClean);
+            other.transform.parent.gameObject.SetActive(false);
+        } else if (other.CompareTag("Mask")) {
+            // TODO invincibility
+            StartCoroutine(Blinking(10, false));
+            other.transform.parent.gameObject.SetActive(false);
         }
+
 
         if(invincible)
             return;
@@ -164,7 +180,7 @@ public class Player : MonoBehaviour {
             currentLife--;
             uiManager.UpdateLives(currentLife);
             anim.SetTrigger("Hit");
-            speed = 0;
+            speed = 0.4f * speed;
 
             if(currentLife <= 0) {
                 speed = 0;
@@ -172,39 +188,48 @@ public class Player : MonoBehaviour {
                 uiManager.gameOverPanel.SetActive(true);
                 Invoke("CallMenu", 2f);
             } else {
-                StartCoroutine(Blinking(invincibleTime));
+                StartCoroutine(Blinking(invincibleTime, true));
             }
         }
     }
 
-    IEnumerator Blinking(float time) {
+    IEnumerator Blinking(float time, bool crash) {
         invincible = true;
         float timer = 0;
         float currentBlink = 1f;
         float lastBlink = 0;
         float blinkPeriod = 0.1f;
-        // bool enabled = false;
-        yield return new WaitForSeconds(1f);
-        speed = minSpeed;
-        while(timer < time && invincible) {
-            //Essa forma provavelmente só irá funcionar nesse shader. Para funcionar noutro
-            //é bom desativar e ativar o modelo. (Aula 6)
+        bool enabled = false;
 
+        if (crash) {
+            yield return new WaitForSeconds(0.75f);
+        }
+
+        //speed = minSpeed;
+        if (speed * 0.75f < minSpeed) {
+            speed = minSpeed;
+        } else {
+            speed = speed * 0.75f;
+        }
+
+        while (timer < time && invincible) {
             //para utilizar a forma de desativar e ativar o modelo, basta descomentar o que está comentado neste método e a variável model.
 
-            // model.SetActive(enabled);
+            model.SetActive(enabled);
             Shader.SetGlobalFloat(blinkingValue, currentBlink);
+
             yield return null;
+
             timer += Time.deltaTime;
             lastBlink += Time.deltaTime;
 
             if(blinkPeriod < lastBlink) {
                 lastBlink = 0;
                 currentBlink = 1f - currentBlink;
-                // enabled = !enabled;
+                enabled = !enabled;
             }
         }
-        // model.SetActive(true);
+        model.SetActive(true);
         Shader.SetGlobalFloat(blinkingValue, 0);
         invincible = false;
     }

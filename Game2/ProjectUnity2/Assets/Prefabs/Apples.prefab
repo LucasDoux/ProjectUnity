@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: -5591177082537228970}
   m_Layer: 0
   m_Name: Apples
-  m_TagString: Coin
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,17 +122,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 1f46a63790e5a1841b2434f15de00bf0,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 1f46a63790e5a1841b2434f15de00bf0,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 1f46a63790e5a1841b2434f15de00bf0,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 1f46a63790e5a1841b2434f15de00bf0,
         type: 3}
@@ -142,7 +142,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 1f46a63790e5a1841b2434f15de00bf0,
         type: 3}
       propertyPath: m_TagString
-      value: Coin
+      value: Food
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f46a63790e5a1841b2434f15de00bf0, type: 3}

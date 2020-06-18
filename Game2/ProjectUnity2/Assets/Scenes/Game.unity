@@ -584,6 +584,84 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 276811086}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &281407616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 281407617}
+  - component: {fileID: 281407619}
+  - component: {fileID: 281407618}
+  m_Layer: 5
+  m_Name: Cleaning Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &281407617
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281407616}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1.0145999}
+  m_Children: []
+  m_Father: {fileID: 416110150}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 703.3, y: -136.7}
+  m_SizeDelta: {x: 140, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &281407618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281407616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: ab2cfde409d710b47b0b502877abb479, type: 3}
+    m_FontSize: 35
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 72
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 0 (0)
+--- !u!222 &281407619
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281407616}
+  m_CullTransparentMesh: 0
 --- !u!1 &282458024
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,9 +1028,10 @@ MonoBehaviour:
   - {fileID: 1138459487}
   - {fileID: 1741895959}
   - {fileID: 571336955}
-  coinText: {fileID: 848859002}
   gameOverPanel: {fileID: 1979348595}
   scoreText: {fileID: 282458026}
+  foodText: {fileID: 848859002}
+  cleanText: {fileID: 281407618}
 --- !u!114 &416110147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1028,6 +1107,9 @@ RectTransform:
   - {fileID: 1979348598}
   - {fileID: 282458025}
   - {fileID: 848859001}
+  - {fileID: 281407617}
+  - {fileID: 1302537160}
+  - {fileID: 658188272}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1431,8 +1513,8 @@ MonoBehaviour:
   jumpHeight: 2
   slideLength: 7.5
   maxLife: 3
-  invincibleTime: 0
-  model: {fileID: 0}
+  invincibleTime: 1.5
+  model: {fileID: 1652815495}
 --- !u!54 &550438786
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1679,6 +1761,80 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 114000011013335392, guid: 423b9549e9d84034aac50ab7e0459e77, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 423b9549e9d84034aac50ab7e0459e77, type: 3}
+--- !u!1 &658188271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 658188272}
+  - component: {fileID: 658188274}
+  - component: {fileID: 658188273}
+  m_Layer: 5
+  m_Name: FoodImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &658188272
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658188271}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
+  m_Children: []
+  m_Father: {fileID: 416110150}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 197.8, y: 271}
+  m_SizeDelta: {x: 80, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &658188273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658188271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 6a461fcb5143c8449a6f35781eaaaede, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &658188274
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658188271}
+  m_CullTransparentMesh: 0
 --- !u!1001 &682451217
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2010,9 +2166,11 @@ MonoBehaviour:
   numberOfObstacles: {x: 20, y: 25}
   coins:
   - {fileID: 2720685495906485950, guid: a9464d5144937db41a036b2a9ff2fca7, type: 3}
-  - {fileID: 6492864640576742427, guid: ee411854e2b64ff429fb034afa51be61, type: 3}
+  - {fileID: 1147307814640526360, guid: 99504492937967d4ab7236f1e8da76f3, type: 3}
   - {fileID: 1708599934139031951, guid: c054102be6cbb9c489673d5c39c7124c, type: 3}
-  numberOfCoins: {x: 75, y: 100}
+  - {fileID: 8748876855811649884, guid: 021a7a0f11820f8428a0514376973393, type: 3}
+  - {fileID: 5820015284137862018, guid: a5c99f379c9c76945b8657b0f33fcbc7, type: 3}
+  numberOfCoins: {x: 25, y: 32}
   newObstacles: []
   newCoins: []
 --- !u!65 &801845919
@@ -2040,7 +2198,7 @@ GameObject:
   - component: {fileID: 848859003}
   - component: {fileID: 848859002}
   m_Layer: 5
-  m_Name: Coins Text
+  m_Name: Food Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2062,8 +2220,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 720, y: -25}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 703.30005, y: -44.899994}
+  m_SizeDelta: {x: 140, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &848859002
 MonoBehaviour:
@@ -2091,13 +2249,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 72
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Coins: 0'
+  m_Text: 0 (0)
 --- !u!222 &848859003
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2875,6 +3033,80 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 881488330}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1302537159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1302537160}
+  - component: {fileID: 1302537162}
+  - component: {fileID: 1302537161}
+  m_Layer: 5
+  m_Name: CleanImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1302537160
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302537159}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 416110150}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 200, y: 182}
+  m_SizeDelta: {x: 80, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1302537161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302537159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 08abbf32ba2bd4e4a9b16d50dec1d861, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1302537162
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302537159}
+  m_CullTransparentMesh: 0
 --- !u!1001 &1315013670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3379,6 +3611,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1630375863}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1652815495 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1855566417224840, guid: 95d2ac30741c7b24bb3362f902133c24,
+    type: 3}
+  m_PrefabInstance: {fileID: 274068843}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1741434576 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000010822335774, guid: 9e0040302c7a83c4d8e1ddf3979d6979,
@@ -3848,9 +4086,11 @@ MonoBehaviour:
   numberOfObstacles: {x: 20, y: 25}
   coins:
   - {fileID: 2720685495906485950, guid: a9464d5144937db41a036b2a9ff2fca7, type: 3}
-  - {fileID: 6492864640576742427, guid: ee411854e2b64ff429fb034afa51be61, type: 3}
+  - {fileID: 1147307814640526360, guid: 99504492937967d4ab7236f1e8da76f3, type: 3}
   - {fileID: 1708599934139031951, guid: c054102be6cbb9c489673d5c39c7124c, type: 3}
-  numberOfCoins: {x: 75, y: 100}
+  - {fileID: 8748876855811649884, guid: 021a7a0f11820f8428a0514376973393, type: 3}
+  - {fileID: 5820015284137862018, guid: a5c99f379c9c76945b8657b0f33fcbc7, type: 3}
+  numberOfCoins: {x: 25, y: 32}
   newObstacles: []
   newCoins: []
 --- !u!4 &2053942904

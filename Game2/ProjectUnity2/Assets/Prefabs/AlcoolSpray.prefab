@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 6461233164164769057}
   m_Layer: 0
   m_Name: AlcoolSpray
-  m_TagString: Coin
+  m_TagString: Cleaning
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,7 +73,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 445cbf88dfe151148b2f8beda6b6e6a7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 445cbf88dfe151148b2f8beda6b6e6a7,
         type: 3}
@@ -123,17 +123,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 445cbf88dfe151148b2f8beda6b6e6a7,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.07
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 445cbf88dfe151148b2f8beda6b6e6a7,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.07
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 445cbf88dfe151148b2f8beda6b6e6a7,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.07
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 445cbf88dfe151148b2f8beda6b6e6a7,
         type: 3}
@@ -143,7 +143,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 445cbf88dfe151148b2f8beda6b6e6a7,
         type: 3}
       propertyPath: m_TagString
-      value: Coin
+      value: Cleaning
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 445cbf88dfe151148b2f8beda6b6e6a7, type: 3}

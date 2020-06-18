@@ -21,15 +21,23 @@ public class Track : MonoBehaviour {
     void Start() {
         int newNumberOfObstacles = (int)Random.Range(numberOfObstacles.x, numberOfObstacles.y); //sorteando valores
         int newNumberOfCoins = (int)Random.Range(numberOfCoins.x, numberOfCoins.y);
+        int aux = 0;
 
-        for (int i = 0; i < newNumberOfObstacles; i++) {
-            newObstacles.Add(Instantiate(obstacles[Random.Range(0, obstacles.Length)], transform));//instanciando os prefabs(obstaculos)
-            newObstacles[i].SetActive(false);//deixando desativado de inicio
+        for (int i = 0; i < newNumberOfObstacles; i++) { 
+            newObstacles.Add(Instantiate(obstacles[Random.Range(0, obstacles.Length)], transform)); //instanciando os prefabs(obstaculos)
+            newObstacles[i].SetActive(false); //deixando desativado de inicio
         }
 
         for (int i = 0; i < newNumberOfCoins; i++)  {
             //newCoins.Add(Instantiate(coin, transform));
-            newCoins.Add(Instantiate(coins[Random.Range(0, coins.Length)], transform));
+            aux = Random.Range(1, 101);
+
+            if (aux > 2) {
+                newCoins.Add(Instantiate(coins[Random.Range(0, coins.Length - 1)], transform));
+            } else {
+                newCoins.Add(Instantiate(coins[coins.Length - 1], transform)); //Mask
+            }
+
             newCoins[i].SetActive(false);
         }
 
@@ -55,17 +63,32 @@ public class Track : MonoBehaviour {
     }
 
     void PlaceCoins() {
+        /*
         float minZPos = 10f; //Distancia minima para posicionar a moeda
 
         for (int i = 0; i < newCoins.Count; i++) {
-            float maxZPos = minZPos + 20f; //Distancia maxima para posicionar a moeda // TODO -----------------
+            float maxZPos = minZPos + 10f; //Distancia maxima para posicionar a moeda // TODO -----------------
             float randomZPos = Random.Range(minZPos, maxZPos);
 
             newCoins[i].transform.localPosition = new Vector3(transform.position.x, transform.position.y, randomZPos); //Posicionando em lugares randomicos em z
             newCoins[i].SetActive(true); //Ativando a moeda
             newCoins[i].GetComponent<ChangeLane>().PositionLane(); //Todo coin vai ter um componente ChangeLane que é responsável por escolher uma das 3 lanes para posicioná-lo.
 
-            minZPos = randomZPos + 1; //A proxima moeda vai ter pelo menos 1 de distancia em Z da moeda anterior
+            minZPos = randomZPos + 7.5f; //A proxima moeda vai ter pelo menos X de distancia em Z da moeda anterior
+        }
+        */
+        int aux = 0;
+
+        for (int i = 0; i < newCoins.Count; i++) {
+            float posZMin = (292f / newCoins.Count) + (292f / newCoins.Count) * i; //posicionando os objetos atraves do tamanho da pista(posição minima)
+            float posZMax = (292f / newCoins.Count) + (292f / newCoins.Count) * i + 1; //posicionando os objetos atraves do tamanho da pista(posição maxima)
+
+            aux = Random.Range(-2, 3);
+            newCoins[i].transform.localPosition = new Vector3(0, 0, Random.Range(posZMin, posZMax) + aux); //posicionando em lugares randomicos em z
+            newCoins[i].SetActive(true); //ativando os obstaculos
+
+            if (newCoins[i].GetComponent<ChangeLane>() != null)
+                newCoins[i].GetComponent<ChangeLane>().PositionLane();
         }
     }
 

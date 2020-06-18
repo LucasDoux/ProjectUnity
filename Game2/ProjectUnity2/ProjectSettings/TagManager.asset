@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Obstacle
   - Coin
+  - Food
+  - Cleaning
+  - Mask
   layers:
   - Default
   - TransparentFX

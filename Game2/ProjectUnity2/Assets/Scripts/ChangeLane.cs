@@ -5,8 +5,8 @@ using UnityEngine;
 public class ChangeLane : MonoBehaviour {
 
     private void FixedUpdate() {
-        if(gameObject.CompareTag("Coin")){
-            transform.Rotate(0, 12.5f, 0);
+        if (gameObject.tag == "Food" || gameObject.tag == "Cleaning") {
+            gameObject.transform.Rotate(0, 8f, 0);
         }
     }
 
