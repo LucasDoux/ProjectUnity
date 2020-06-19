@@ -9,6 +9,7 @@ TagManager:
   - Food
   - Cleaning
   - Mask
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

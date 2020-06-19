@@ -157,7 +157,7 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
 
-        if(other.CompareTag("Food")) {
+        if (other.CompareTag("Food")) {
             foodCoins++; //Sobe a quantidade de coins coletados em 1
             uiManager.UpdateText("Food", foodCoins, storedFood); //Atualiza a tela com o número atual de coins
             other.transform.parent.gameObject.SetActive(false); //Desativa a colisão com o coin depois de já ter colidido
@@ -166,9 +166,15 @@ public class Player : MonoBehaviour {
             uiManager.UpdateText("Cleaning", cleanCoins, storedClean);
             other.transform.parent.gameObject.SetActive(false);
         } else if (other.CompareTag("Mask")) {
-            // TODO invincibility
             StartCoroutine(Blinking(10, false));
             other.transform.parent.gameObject.SetActive(false);
+        } else if (other.CompareTag("Checkpoint")) {
+            storedFood += foodCoins;
+            foodCoins = 0;
+            storedClean += cleanCoins;
+            cleanCoins = 0;
+            uiManager.UpdateText("Food", foodCoins, storedFood);
+            uiManager.UpdateText("Cleaning", cleanCoins, storedClean);
         }
 
 
