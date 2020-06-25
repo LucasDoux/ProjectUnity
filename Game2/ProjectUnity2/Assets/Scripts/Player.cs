@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -40,6 +40,8 @@ public class Player : MonoBehaviour {
     private bool invincible = false;
     private int blinkingValue;
     public GameObject model; //Usado para blinkar o player se estiver usando outro asset (Vai ser nosso caso)
+    public RectTransform invincibleImageRect;
+    private float defaultInvincibleImageLength;
 
     private Animator anim;
     private Rigidbody rb;
@@ -71,6 +73,9 @@ public class Player : MonoBehaviour {
 
         storedFood = 0;
         storedClean = 0;
+
+        defaultInvincibleImageLength = invincibleImageRect.sizeDelta.x;
+        invincibleImageRect.sizeDelta = new Vector2(0,invincibleImageRect.sizeDelta.y);
     }
 
     // Update is called once per frame
@@ -218,7 +223,10 @@ public class Player : MonoBehaviour {
             speed = speed * 0.75f;
         }
 
-        while (timer < time && invincible) {
+        while (timer < time && invincible)
+        {
+            invincibleImageRect.sizeDelta = new Vector2(defaultInvincibleImageLength * (1f - timer / time), 
+                invincibleImageRect.sizeDelta.y);
             //para utilizar a forma de desativar e ativar o modelo, basta descomentar o que está comentado neste método e a variável model.
 
             model.SetActive(enabled);
@@ -235,6 +243,7 @@ public class Player : MonoBehaviour {
                 enabled = !enabled;
             }
         }
+        invincibleImageRect.sizeDelta = new Vector2(0, invincibleImageRect.sizeDelta.y);
         model.SetActive(true);
         Shader.SetGlobalFloat(blinkingValue, 0);
         invincible = false;
